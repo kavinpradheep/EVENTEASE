@@ -1,7 +1,13 @@
-// src/components/login.jsx
-
+import React from 'react';
+import './login.css';
+// If using Firebase for authentication
+import { auth, provider } from '../../firebase-config'; // Import Firebase config
+import { signInWithPopup } from 'firebase/auth'; // Firebase auth methods
 import React, { useState } from 'react';
 import './login.css';
+
+
+
 
 const Login = () => {
   const [form, setForm] = useState({
