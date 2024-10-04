@@ -2,7 +2,9 @@ import React from 'react'
 
 const Mainpage = () => {
   return (
-    <div>mainpage</div>
+    <div className="main">
+        
+    </div>
   )
 }
 

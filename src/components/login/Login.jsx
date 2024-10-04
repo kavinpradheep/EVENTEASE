@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './login.css';
-import { auth, googleProvider } from '../../firebase-config'; // Firebase config for Google Auth
-import { signInWithPopup } from 'firebase/auth'; // Firebase auth methods
+import { auth, googleProvider } from '../../firebase-config'; 
+import { signInWithPopup } from 'firebase/auth'; 
 
 const Login = () => {
+  //navigation
   const navigate = useNavigate();
   const handlebuttonclick = () =>{
-    navigate('/Mainpage')
+    navigate('/Mainpage') //navigate to main page
   }
 
   const [form, setForm] = useState({
@@ -104,7 +105,7 @@ const Login = () => {
           <hr />
         </div>
 
-        {/* Google Sign-In Button */}
+        /* Google Sign-In Button */
         <button onClick={googleSignIn} className="google-btn">
           Continue with Google
         </button>
