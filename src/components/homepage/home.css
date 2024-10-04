@@ -26,6 +26,18 @@
     gap: 20px;
     color: #333333;
 }
+.home, .events, .about, .contact{
+    cursor: pointer;
+    transition: 0.2s;
+}
+.home{
+    color: rgb(49, 100, 244);
+}
+.home:hover, .events:hover, 
+.about:hover, .contact:hover{
+    color: rgb(49, 100, 244);
+    transform: scale(1.1);
+}
 .right-section{
     margin: 0;
     justify-self: end;

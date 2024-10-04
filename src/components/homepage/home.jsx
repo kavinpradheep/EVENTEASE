@@ -1,6 +1,11 @@
 import React from 'react'
-import './mainpage.css'
+import { useNavigate } from 'react-router-dom'
+import './home.css'
 const Mainpage = () => {
+    const navigate = useNavigate();
+    const handleeventclick = () =>{
+        navigate('/Events')
+    }
   return (
     <div className="main">
         <div className="main-holder">
@@ -12,7 +17,7 @@ const Mainpage = () => {
                     <div className="home">
                         Home
                     </div>
-                    <div className="events">
+                    <div className="events" onClick={handleeventclick}>
                         Events
                     </div>
                     <div className="about">
