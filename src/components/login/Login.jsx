@@ -1,7 +1,7 @@
-// src/components/login.jsx
-
 import React, { useState } from 'react';
 import './login.css';
+import { auth, googleProvider } from '../../firebase-config'; // Firebase config for Google Auth
+import { signInWithPopup } from 'firebase/auth'; // Firebase auth methods
 
 const Login = () => {
   const [form, setForm] = useState({
@@ -11,6 +11,7 @@ const Login = () => {
     password: ''
   });
 
+  // Handle form field changes
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm({
@@ -19,6 +20,7 @@ const Login = () => {
     });
   };
 
+  // Handle form submission (sign-up with email and password)
   const handleSubmit = async (e) => {
     e.preventDefault();
     // Sending data to backend
@@ -40,6 +42,18 @@ const Login = () => {
     } catch (error) {
       console.error('Error:', error);
       alert('Error occurred during registration.');
+    }
+  };
+
+  // Google Sign-In function
+  const googleSignIn = async () => {
+    try {
+      const result = await signInWithPopup(auth, googleProvider);
+      const user = result.user;
+      console.log('User logged in with Google: ', user);
+      // You can handle the user data here, for example, send it to your backend for further processing
+    } catch (error) {
+      console.error('Error during Google sign-in: ', error);
     }
   };
 
@@ -104,6 +118,11 @@ const Login = () => {
           <p>Or register with</p>
           <hr />
         </div>
+
+        {/* Google Sign-In Button */}
+        <button onClick={googleSignIn} className="google-btn">
+          Continue with Google
+        </button>
       </div>
     </div>
   );
