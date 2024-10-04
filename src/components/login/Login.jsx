@@ -1,48 +1,100 @@
+// src/components/login.jsx
+
 import React, { useState } from 'react';
 import './login.css';
-import { storeUserDetails } from './login.js'; // Import the storage function
-import login_img from '../../../public/asserts/loginSvg.png';
 
 const Login = () => {
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [form, setForm] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    password: ''
+  });
 
-  const handleFormSubmit = (e) => {
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setForm({
+      ...form,
+      [name]: value,
+    });
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    // Sending data to backend
+    try {
+      const response = await fetch('http://localhost:5000/api/signup', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(form),
+      });
 
-    storeUserDetails(firstName, lastName, email, password);
+      const data = await response.json();
+      if (response.ok) {
+        alert('Account created successfully!');
+      } else {
+        alert(`Error: ${data.error}`);
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      alert('Error occurred during registration.');
+    }
   };
 
   return (
     <div className='login-page'>
       <div className="left-photo">
+        <img src="/asserts/loginSvg.png" alt="Login illustration" height={638} width={530} />
       </div>
+      
       <div className="right-section">
         <h1>Create an Account</h1>
         <p>Already have an account? <span>Log in</span></p>
         
-        <form onSubmit={handleFormSubmit}>
+        <form onSubmit={handleSubmit}>
           <div className="name">
-            <input type='text' className="first-name" placeholder='First name'
-              value={firstName}
-              onChange={(e) => setFirstName(e.target.value)}
+            <input
+              type="text"
+              className="first-name"
+              name="firstName"
+              placeholder="First name"
+              value={form.firstName}
+              onChange={handleChange}
+              aria-label="First name"
             />
-            <input type='text' className="last-name" placeholder='Last name'
-              value={lastName}
-              onChange={(e) => setLastName(e.target.value)}
+            <input
+              type="text"
+              className="last-name"
+              name="lastName"
+              placeholder="Last name"
+              value={form.lastName}
+              onChange={handleChange}
+              aria-label="Last name"
             />
           </div>
-          <input type="email" className='email' placeholder='Email'
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+
+          <input
+            type="email"
+            className="email"
+            name="email"
+            placeholder="Email"
+            value={form.email}
+            onChange={handleChange}
+            aria-label="Email"
           />
-          <input type="password" className='password' placeholder='Enter your password'
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+          <input
+            type="password"
+            className="password"
+            name="password"
+            placeholder="Enter your password"
+            value={form.password}
+            onChange={handleChange}
+            aria-label="Password"
           />
-          <button className="create-account" type="submit">
+          
+          <button type="submit" className="create-account">
             Create account
           </button>
         </form>
