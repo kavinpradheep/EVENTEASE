@@ -1,33 +1,11 @@
-// backend/server.js
-
 import express from 'express';
-import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
-import cors from 'cors';
+import User from '../models/User.js'; // Ensure you create a User model
 
-// Initialize Express app
-const app = express();
-app.use(cors());
-app.use(express.json());
-
-// MongoDB connection
-mongoose.connect('mongodb://localhost:27017/eventEaseDB', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
-
-// User schema
-const userSchema = new mongoose.Schema({
-  firstName: String,
-  lastName: String,
-  email: { type: String, unique: true },
-  password: String,
-});
-
-const User = mongoose.model('User', userSchema);
+const router = express.Router();
 
 // Signup route
-app.post('/api/signup', async (req, res) => {
+router.post('/signup', async (req, res) => {
   const { firstName, lastName, email, password } = req.body;
 
   try {
@@ -56,7 +34,4 @@ app.post('/api/signup', async (req, res) => {
   }
 });
 
-// Start server
-app.listen(5000, () => {
-  console.log('Server is running on port 5000');
-});
+export default router;
