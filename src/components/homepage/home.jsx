@@ -31,6 +31,7 @@ const Mainpage = () => {
                     date
                 </div>
             </div>
+            
             <div className="page-container">
                 <div className="page-container-left">
                     <p>- Kongu Engineeering college</p>

@@ -1,7 +1,17 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
+
 import './events.css'
+import eventpopup from '../../../assests/event_register_popup.jpg'
 import poster from '../../../assests/poster.jpg'
 const Events = () => {
+    const navigate = useNavigate();
+    const homeclick =() =>{
+        navigate('/Mainpage')
+    }
+    const eventregisterclick =() =>{
+        navigate('/EventRegister')
+    }
   return (
 <div className="main">
         <div className="events-main-holder">
@@ -10,7 +20,7 @@ const Events = () => {
                     EventEase
                 </div>
                 <div className="middle-section">
-                    <div className="event-nav-home">
+                    <div className="event-nav-home" onClick={homeclick}>
                         Home
                     </div>
                     <div className="event-nav-events" >
@@ -25,6 +35,15 @@ const Events = () => {
                 </div>
                 <div className="right-section">
                     date
+                </div>
+            </div>
+            <div className="eventregister-popup">
+                <div className="eventregister-popup-container">
+                    <img src={eventpopup} alt="" />
+                    <h3>Showcase your Event</h3>
+                    <button onClick={eventregisterclick}>
+                        PUBLISH
+                    </button>
                 </div>
             </div>
             <div className="event-container">

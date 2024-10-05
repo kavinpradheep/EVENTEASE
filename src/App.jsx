@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Events from './components/events/events';
 import Login from './components/login/Login'
 import Mainpage from './components/homepage/home';
+import Eventregister from './components/EventRegister/eventregister';
 const App = () => {
   return (
     <Router>
@@ -11,6 +12,7 @@ const App = () => {
         <Route path='/' element={<Login/>}/>
         <Route path='/Mainpage' element={<Mainpage/>}/>
         <Route path='/Events' element={<Events/>}/>
+        <Route path='/EventRegister' element={<Eventregister/>} />
       </Routes>
     </Router>
   )

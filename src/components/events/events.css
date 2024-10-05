@@ -17,10 +17,41 @@
     cursor: pointer;
     color: rgb(49, 100, 244);
 }
+.eventregister-popup{
+    position: fixed;
+    right: 10px;
+    top: 80px;
+    z-index: 1000;
+    padding: 30px;
+    background-color: rgb(255, 255, 255);
+    border-radius: 20px;
+    
+}
+.eventregister-popup-container{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.eventregister-popup-container img{
+    height: 500px;
+}
+.eventregister-popup-container h3{
+    text-align: center;
+}
+.eventregister-popup-container button{
+    height: 40px;
+    margin: 0px 40px;
+    border: none;
+    background-color: rgb(49, 100, 244);
+    color: white;
+    font-size: 22px;
+}
 .event-container{
     margin-top: 50px;
+    margin-right: 440px;
+    margin-left: 10px;
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
     gap: 20px;
 }
 .event-container-event{
