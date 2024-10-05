@@ -1,6 +1,14 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
 import './eventregister.css'
 const Eventregister = () => {
+    const navigate = useNavigate();
+    const homeclick = () =>{
+        navigate('/Mainpage')
+    }
+    const eventclick = () => {
+        navigate('/Events')
+    }
   return (
     <div className="main">
         <div className="events-main-holder">
@@ -9,10 +17,10 @@ const Eventregister = () => {
                     EventEase
                 </div>
                 <div className="middle-section">
-                    <div className="event-nav-home" >
+                    <div className="event-nav-home"  onClick={homeclick}>
                         Home
                     </div>
-                    <div className="event-nav-events" >
+                    <div className="event-nav-events" onClick={eventclick}>
                         Events
                     </div>
                     <div className="about">
@@ -35,7 +43,7 @@ const Eventregister = () => {
                     <hr />    
                     corrections cant be done after publish
                 </div>
-                <p>college Name</p>
+                <p>College Name</p>
                 <input type="text" class='register-eventname' placeholder='College Name' />
                 <p>Event Name</p>
                 <input type="text" class='register-eventname' placeholder='Event Name' />
