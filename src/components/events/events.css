@@ -1,0 +1,36 @@
+.events-main-holder{
+    background-color: #ededed;
+    padding: 20px;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}.event-nav-home{
+    transition: 0.2s;
+    cursor: pointer;
+}
+.event-nav-home:hover{
+    color: rgb(49, 100, 244);
+    transform: scale(1.1);
+}
+.event-nav-events{
+    cursor: pointer;
+    color: rgb(49, 100, 244);
+}
+.event-container{
+    margin-top: 50px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 20px;
+}
+.event-container-event{
+    padding: 20px;
+    border-radius: 5px;
+    background-color: rgb(209, 208, 208);
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+}
+.event-container-event img{
+    height: 300px;
+}

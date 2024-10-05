@@ -71,7 +71,7 @@ const Login = () => {
         <img src="/asserts/loginSvg.png" alt="Login illustration" height={638} width={530} />
       </div>
       
-      <div className="right-section">
+      <div className="login-right-section">
         <h1>Create an Account</h1>
         <p>Already have an account? <span>Log in</span></p>
         

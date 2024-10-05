@@ -8,6 +8,12 @@
     gap: 40px;
 }
 .header{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    background-color: #ededed;
     padding: 0px 50px;
     display: grid;
     grid-template-columns: 1fr 2fr 1fr;
