@@ -1,15 +1,16 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './login.css';
-import { auth, googleProvider } from '../../firebase-config'; 
-import { signInWithPopup } from 'firebase/auth'; 
+import { auth } from '../../firebase-config'; 
+import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth'; 
 
 const Login = () => {
-  //navigation
+  // navigation
   const navigate = useNavigate();
-  const handlebuttonclick = () =>{
-    navigate('/Mainpage') //navigate to main page
-  }
+  
+  const handlebuttonclick = () => {
+    navigate('/Mainpage'); // Navigate to main page
+  };
 
   const [form, setForm] = useState({
     firstName: '',
@@ -29,9 +30,9 @@ const Login = () => {
 
   // Handle form submission (sign-up with email and password)
   const handleSubmit = async (e) => {
-    e.preventDefault(); // Sending data to backend
-    handlebuttonclick(); // redirct to main page of storage
-    
+    e.preventDefault(); // Prevent default form submission
+    handlebuttonclick(); // Redirect to main page
+
     try {
       const response = await fetch('http://localhost:5000/api/signup', {
         method: 'POST',
@@ -55,11 +56,12 @@ const Login = () => {
 
   // Google Sign-In function
   const googleSignIn = async () => {
+    const provider = new GoogleAuthProvider();
     try {
-      const result = await signInWithPopup(auth, googleProvider);
+      const result = await signInWithPopup(auth, provider);
       const user = result.user;
       console.log('User logged in with Google: ', user);
-      // You can handle the user data here, for example, send it to your backend for further processing
+      // You can handle the user data here, e.g., send it to your backend for further processing
     } catch (error) {
       console.error('Error during Google sign-in: ', error);
     }
@@ -94,7 +96,7 @@ const Login = () => {
             onChange={handleChange}
           />
           
-          <button type="submit" className="create-account" >
+          <button type="submit" className="create-account">
             Create account
           </button>
         </form>
@@ -105,7 +107,7 @@ const Login = () => {
           <hr />
         </div>
 
-        /* Google Sign-In Button */
+        {/* Google Sign-In Button */}
         <button onClick={googleSignIn} className="google-btn">
           Continue with Google
         </button>
