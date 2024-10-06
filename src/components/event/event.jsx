@@ -37,27 +37,49 @@ const Event = () => {
                 <div className="event-detail-name">
                     {eventData.collegeName} {/* Dynamic College Name */}
                 </div>
+
+                <div className="event-main-event-name">
+                    <strong>Main Event:</strong> {eventData.eventName} {/* Dynamic Main Event Name */}
+                </div>
+
                 <div className="event-detail-description">
                     {eventData.description} {/* Dynamic Description */}
                 </div>
+
                 <img className="event-detail-poster" src={`http://localhost:5000/${eventData.eventPoster}`} alt={`${eventData.collegeName} Poster`} /> {/* Dynamic Image */}
+
                 <div className="event-detail-aboutevent">
                     {eventData.detailedInfo} {/* Dynamic About Event */}
                 </div>
+
                 <div className="event-detail-typeofevent">
+                    <strong>Sub-events:</strong>
                     {eventData.events && eventData.events.map((eventItem, index) => (
-                        <div key={index}>{eventItem.eventName}</div> // Displaying event names (typeOfEvent equivalent)
+                        <div key={index}>{eventItem.eventName}</div> // Displaying sub-event names (typeOfEvent equivalent)
                     ))}
                 </div>
+
+                <div className="event-detail-webinar">
+                    {eventData.webinarLink && (
+                        <div>
+                            <strong>Webinar Link:</strong> 
+                            <a href={eventData.webinarLink} target="_blank" rel="noopener noreferrer">{eventData.webinarLink}</a> {/* Dynamic Webinar Link */}
+                        </div>
+                    )}
+                </div>
+
                 <div className="event-detail-contact">
+                    <strong>Contact Details:</strong>
                     {eventData.contacts && eventData.contacts.map((contact, index) => (
                         <div key={index}>
                             {contact.contactName}: {contact.contactNumber}
                         </div>
                     ))} {/* Dynamic Contact Details */}
                 </div>
+
                 <div className="event-detail-registration">
-                    <a href={eventData.gformLink} target="_blank" rel="noopener noreferrer">Registration Link</a> {/* Dynamic GForm Link */}
+                    <strong>Registration Link:</strong> 
+                    <a href={eventData.gformLink} target="_blank" rel="noopener noreferrer">Register Here</a> {/* Dynamic GForm Link */}
                 </div>
             </div>
         </div>

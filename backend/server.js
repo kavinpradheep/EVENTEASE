@@ -74,10 +74,12 @@ const eventSchema = new mongoose.Schema({
   registrationClose: Date,
   eventPoster: String, // Store the file path as a string
   description: String,  // Short description
-  detailedInfo: String,  // Detailed information about the event (maps to 'aboutEvent' on frontend)
+  detailedInfo: String,  // Detailed information about the event
+  eventName: String,  // Main Event Name (New field)
+  webinarLink: String, // Webinar Link (New field)
   events: [
     {
-      eventName: String, // Maps to 'typeOfEvent' on frontend
+      eventName: String, // Sub-events (typeOfEvent equivalent)
     },
   ],
   contacts: [
@@ -126,6 +128,8 @@ app.post('/api/registerEvent', upload.single('eventPoster'), async (req, res) =>
     registrationClose,
     description,
     detailedInfo,
+    eventName, // Main Event Name (New field)
+    webinarLink, // Webinar Link (New field)
     events,
     contacts,
   } = req.body;
@@ -142,6 +146,8 @@ app.post('/api/registerEvent', upload.single('eventPoster'), async (req, res) =>
       eventPoster,
       description,  // Add description field
       detailedInfo,  // Add detailedInfo field
+      eventName,  // Add eventName field (Main event)
+      webinarLink, // Add webinarLink field
       events: JSON.parse(events), // Parse JSON data sent from the frontend
       contacts: JSON.parse(contacts), // Parse JSON data sent from the frontend
     });
