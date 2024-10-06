@@ -5,6 +5,8 @@ import Events from './components/allevents/allevents';
 import Login from './components/login/Login'
 import Mainpage from './components/homepage/home';
 import Eventregister from './components/EventRegister/eventregister';
+import Event from './components/event/event';
+
 const App = () => {
   return (
     <Router>
@@ -13,6 +15,7 @@ const App = () => {
         <Route path='/Mainpage' element={<Mainpage/>}/>
         <Route path='/Events' element={<Events/>}/>
         <Route path='/EventRegister' element={<Eventregister/>} />
+        <Route path='/viewmore' element={<Event/>} />
       </Routes>
     </Router>
   )

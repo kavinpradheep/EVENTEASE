@@ -18,8 +18,8 @@ const Events = () => {
         navigate('/EventRegister');
     };
     const viewmoreclick = () => {
-        navigatev('/viewmore')
-    }
+        navigate('/viewmore')
+    };
 
     // Fetch events data from the backend
     useEffect(() => {
@@ -27,7 +27,7 @@ const Events = () => {
             try {
                 const response = await fetch('http://localhost:5000/api/events');
                 const data = await response.json();
-                setEvents(data); // Update the state with fetched events
+                setEvents(data); 
             } catch (error) {
                 console.error('Error fetching events:', error);
             }
@@ -87,7 +87,7 @@ const Events = () => {
                                     <p>opens: {new Date(event.registrationOpen).toLocaleDateString()}</p>
                                     <p>End: {new Date(event.registrationClose).toLocaleDateString()}</p>
                                 </div>
-                                <h4 onClick={viewmoreclick}>view more</h4>
+                                <div onClick={viewmoreclick}>view more</div>
                             </div>
                         ))
                     )}

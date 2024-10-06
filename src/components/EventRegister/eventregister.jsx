@@ -148,7 +148,10 @@ const Eventregister = () => {
 
             <p>Event Poster</p>
             <input type="file" name="eventPoster" accept="image/*" onChange={handleImageChange} className="register-poster" required />
-
+            <p>Enter short description</p>
+            <textarea className='register-event-description'></textarea>
+            <p>Enter detailed information</p>
+            <textarea className='register-about-event'></textarea>
             <p>How many events do you want to register?</p>
             <input
               type="number"
