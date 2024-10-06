@@ -9,9 +9,7 @@ import path from 'path';
 const app = express();
 app.use(cors());
 app.use(express.json());
-
 app.use('/uploads', express.static('uploads'));
-
 
 // Set up multer for file uploads
 const storage = multer.diskStorage({
@@ -46,16 +44,12 @@ app.post('/api/signup', async (req, res) => {
   const { firstName, lastName, email, password } = req.body;
 
   try {
-    // Check if user exists
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       return res.status(400).json({ error: 'User already exists' });
     }
 
-    // Hash password
     const hashedPassword = await bcrypt.hash(password, 10);
-
-    // Create new user
     const newUser = new User({
       firstName,
       lastName,
@@ -74,12 +68,22 @@ app.post('/api/signup', async (req, res) => {
 // Event schema
 const eventSchema = new mongoose.Schema({
   collegeName: String,
-  eventName: String,
   eventDate: Date,
   gformLink: String,
   registrationOpen: Date,
   registrationClose: Date,
   eventPoster: String, // Store file path as a string
+  events: [
+    {
+      eventName: String,
+    },
+  ],
+  contacts: [
+    {
+      contactName: String,
+      contactNumber: String,
+    },
+  ],
 });
 
 const Event = mongoose.model('Event', eventSchema);
@@ -97,18 +101,19 @@ app.get('/api/events', async (req, res) => {
 
 // Event registration route
 app.post('/api/registerEvent', upload.single('eventPoster'), async (req, res) => {
-  const { collegeName, eventName, eventDate, gformLink, registrationOpen, registrationClose } = req.body;
-  const eventPoster = req.file.path; // Get the path of the uploaded file
+  const { collegeName, eventDate, gformLink, registrationOpen, registrationClose, events, contacts } = req.body;
+  const eventPoster = req.file ? req.file.path : '';
 
   try {
     const newEvent = new Event({
       collegeName,
-      eventName,
       eventDate,
       gformLink,
       registrationOpen,
       registrationClose,
-      eventPoster, // Save the path to the database
+      eventPoster, 
+      events: JSON.parse(events), // Parse JSON data sent from frontend
+      contacts: JSON.parse(contacts),
     });
 
     await newEvent.save();

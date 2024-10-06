@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './events.css';
+import './allevents.css';
 import eventpopup from '../../../assests/event_register_popup.jpg';
 
 const Events = () => {
@@ -11,9 +11,15 @@ const Events = () => {
         navigate('/Mainpage');
     };
 
+    const loginclick = () => {
+        navigate('/')
+    }
     const eventregisterclick = () => {
         navigate('/EventRegister');
     };
+    const viewmoreclick = () => {
+        navigatev('/viewmore')
+    }
 
     // Fetch events data from the backend
     useEffect(() => {
@@ -52,6 +58,7 @@ const Events = () => {
                         </div>
                     </div>
                     <div className="right-section">
+                        <div className="login" onClick={loginclick}>Login / Sign Up</div>
                         date
                     </div>
                 </div>
@@ -80,6 +87,7 @@ const Events = () => {
                                     <p>opens: {new Date(event.registrationOpen).toLocaleDateString()}</p>
                                     <p>End: {new Date(event.registrationClose).toLocaleDateString()}</p>
                                 </div>
+                                <h4 onClick={viewmoreclick}>view more</h4>
                             </div>
                         ))
                     )}

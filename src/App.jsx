@@ -1,7 +1,7 @@
 import React from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
-import Events from './components/events/events';
+import Events from './components/allevents/allevents';
 import Login from './components/login/Login'
 import Mainpage from './components/homepage/home';
 import Eventregister from './components/EventRegister/eventregister';
