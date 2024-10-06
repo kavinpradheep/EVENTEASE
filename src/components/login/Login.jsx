@@ -105,7 +105,7 @@ const Login = () => {
           <hr />
         </div>
 
-        /* Google Sign-In Button */
+        {/* Google Sign-In Button */}
         <button onClick={googleSignIn} className="google-btn">
           Continue with Google
         </button>

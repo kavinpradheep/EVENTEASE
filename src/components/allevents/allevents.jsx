@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './events.css';
+import './allevents.css';
 import eventpopup from '../../../assests/event_register_popup.jpg';
-import poster from '../../../assests/poster.jpg';
 
 const Events = () => {
     const navigate = useNavigate();
@@ -12,9 +11,15 @@ const Events = () => {
         navigate('/Mainpage');
     };
 
+    const loginclick = () => {
+        navigate('/')
+    }
     const eventregisterclick = () => {
         navigate('/EventRegister');
     };
+    const viewmoreclick = () => {
+        navigatev('/viewmore')
+    }
 
     // Fetch events data from the backend
     useEffect(() => {
@@ -32,7 +37,7 @@ const Events = () => {
     }, []); // Empty dependency array means it runs once when the component mounts
 
     return (
-        <div className="main">
+        <div className="events-main">
             <div className="events-main-holder">
                 <div className="header">
                     <div className="left-section">
@@ -53,6 +58,7 @@ const Events = () => {
                         </div>
                     </div>
                     <div className="right-section">
+                        <div className="login" onClick={loginclick}>Login / Sign Up</div>
                         date
                     </div>
                 </div>
@@ -66,20 +72,25 @@ const Events = () => {
                     </div>
                 </div>
                 <div className="event-container">
-                    {events.map((event) => (
-                        <div className="event-container-event" key={event._id}>
-                            <img src={poster} alt="event poster" />
-                            <p>{event.collegeName}</p>
-                            <h3>{event.eventName}</h3>
-                            <h3>Event date: {new Date(event.eventDate).toLocaleDateString()}</h3>
-                            <h4>Registration</h4>
+                    {events.length === 0 ? (
+                        <p>No events available.</p> // Message for no events
+                    ) : (
+                        events.map((event) => (
+                            <div className="event-container-event" key={event._id}>
+                                <img src={`http://localhost:5000/${event.eventPoster}`} alt="event poster" />
+                                <p>{event.collegeName}</p>
+                                <h3>{event.eventName}</h3>
+                                <h3>Event date: {new Date(event.eventDate).toLocaleDateString()}</h3>
+                                <h4>Registration</h4>
 
-                            <div className="event-register-date">
-                                <p>opens: {new Date(event.registrationOpen).toLocaleDateString()}</p>
-                                <p>End: {new Date(event.registrationClose).toLocaleDateString()}</p>
+                                <div className="event-register-date">
+                                    <p>opens: {new Date(event.registrationOpen).toLocaleDateString()}</p>
+                                    <p>End: {new Date(event.registrationClose).toLocaleDateString()}</p>
+                                </div>
+                                <h4 onClick={viewmoreclick}>view more</h4>
                             </div>
-                        </div>
-                    ))}
+                        ))
+                    )}
                 </div>
             </div>
         </div>
