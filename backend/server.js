@@ -9,15 +9,15 @@ import path from 'path';
 const app = express();
 app.use(cors());
 app.use(express.json());
-app.use('/uploads', express.static('uploads'));
+app.use('/uploads', express.static('uploads')); // Serve static files from uploads folder
 
 // Set up multer for file uploads
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, 'uploads/'); // Make sure this folder exists
+    cb(null, 'uploads/'); // Ensure 'uploads/' folder exists
   },
   filename: (req, file, cb) => {
-    cb(null, Date.now() + path.extname(file.originalname)); // Appends the original file extension
+    cb(null, Date.now() + path.extname(file.originalname)); // Name file with timestamp and its original extension
   },
 });
 
@@ -72,16 +72,18 @@ const eventSchema = new mongoose.Schema({
   gformLink: String,
   registrationOpen: Date,
   registrationClose: Date,
-  eventPoster: String, // Store file path as a string
+  eventPoster: String, // Store the file path as a string
+  description: String,  // Short description
+  detailedInfo: String,  // Detailed information about the event (maps to 'aboutEvent' on frontend)
   events: [
     {
-      eventName: String,
+      eventName: String, // Maps to 'typeOfEvent' on frontend
     },
   ],
   contacts: [
     {
       contactName: String,
-      contactNumber: String,
+      contactNumber: String, // Will be used to display contact details on frontend
     },
   ],
 });
@@ -99,10 +101,36 @@ app.get('/api/events', async (req, res) => {
   }
 });
 
+// Fetch event details by ID route
+app.get('/api/events/:id', async (req, res) => {
+  const { id } = req.params;
+  try {
+    const event = await Event.findById(id);
+    if (!event) {
+      return res.status(404).json({ error: 'Event not found' });
+    }
+    res.status(200).json(event);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
 // Event registration route
 app.post('/api/registerEvent', upload.single('eventPoster'), async (req, res) => {
-  const { collegeName, eventDate, gformLink, registrationOpen, registrationClose, events, contacts } = req.body;
-  const eventPoster = req.file ? req.file.path : '';
+  const {
+    collegeName,
+    eventDate,
+    gformLink,
+    registrationOpen,
+    registrationClose,
+    description,
+    detailedInfo,
+    events,
+    contacts,
+  } = req.body;
+
+  const eventPoster = req.file ? req.file.path : ''; // Ensure eventPoster is uploaded
 
   try {
     const newEvent = new Event({
@@ -111,9 +139,11 @@ app.post('/api/registerEvent', upload.single('eventPoster'), async (req, res) =>
       gformLink,
       registrationOpen,
       registrationClose,
-      eventPoster, 
-      events: JSON.parse(events), // Parse JSON data sent from frontend
-      contacts: JSON.parse(contacts),
+      eventPoster,
+      description,  // Add description field
+      detailedInfo,  // Add detailedInfo field
+      events: JSON.parse(events), // Parse JSON data sent from the frontend
+      contacts: JSON.parse(contacts), // Parse JSON data sent from the frontend
     });
 
     await newEvent.save();
@@ -124,7 +154,7 @@ app.post('/api/registerEvent', upload.single('eventPoster'), async (req, res) =>
   }
 });
 
-// Start server
+// Start the server
 app.listen(5000, () => {
   console.log('Server is running on port 5000');
 });

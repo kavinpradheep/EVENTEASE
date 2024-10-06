@@ -15,6 +15,8 @@ const Eventregister = () => {
     gformLink: '',
     registrationOpen: '',
     registrationClose: '',
+    description: '', // Added for event description
+    detailedInfo: '', // Added for detailed information about the event
   });
 
   const [eventPoster, setEventPoster] = useState(null);
@@ -60,12 +62,16 @@ const Eventregister = () => {
     e.preventDefault();
     const formData = new FormData();
 
+    // Append event data to FormData
     formData.append('collegeName', eventData.collegeName);
     formData.append('eventDate', eventData.eventDate);
     formData.append('gformLink', eventData.gformLink);
     formData.append('registrationOpen', eventData.registrationOpen);
     formData.append('registrationClose', eventData.registrationClose);
+    formData.append('description', eventData.description); // Append description
+    formData.append('detailedInfo', eventData.detailedInfo); // Append detailed information
 
+    // Handle event poster file upload
     if (eventPoster) {
       formData.append('eventPoster', eventPoster);
     } else {
@@ -111,7 +117,7 @@ const Eventregister = () => {
           <div className="login" onClick={() => navigate('/')}>Login / Sign Up</div>
         </div>
       </div>
-      {/* Register container open */}
+      {/* Register container */}
       <div className="register-container">
         <div className="register-container-left">
           <h1>Publish Event</h1>
@@ -132,7 +138,8 @@ const Eventregister = () => {
             <p>Gform details</p>
             <input type="url" name="gformLink" value={eventData.gformLink} onChange={handleChange}
               className="register-eventname" placeholder="Enter G-form Link" required />
-
+            <p>Website Link</p>
+            <input type="url" className='register-eventname'/>
             <div className="register-event-gformdetails">
               <div>
                 <p>Registration open</p>
@@ -148,10 +155,29 @@ const Eventregister = () => {
 
             <p>Event Poster</p>
             <input type="file" name="eventPoster" accept="image/*" onChange={handleImageChange} className="register-poster" required />
+            
+            {/* Short description field */}
             <p>Enter short description</p>
-            <textarea className='register-event-description'></textarea>
+            <textarea 
+              className='register-event-description' 
+              name="description" 
+              value={eventData.description} 
+              onChange={handleChange} 
+              placeholder="Short description" 
+              required 
+            />
+            
+            {/* Detailed information field */}
             <p>Enter detailed information</p>
-            <textarea className='register-about-event'></textarea>
+            <textarea 
+              className='register-about-event' 
+              name="detailedInfo" 
+              value={eventData.detailedInfo} 
+              onChange={handleChange} 
+              placeholder="Detailed information about the event" 
+              required 
+            />
+
             <p>How many events do you want to register?</p>
             <input
               type="number"
@@ -216,7 +242,7 @@ const Eventregister = () => {
           </form>
         </div>
         <div className="register-container-right">
-          {/* You can add content or design here */}
+          {/* Add any extra content/design here if needed */}
         </div>
       </div>
     </div>
