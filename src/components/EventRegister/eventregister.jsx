@@ -130,7 +130,8 @@ const Eventregister = () => {
             <p>College Name</p>
             <input type="text" name="collegeName" value={eventData.collegeName} onChange={handleChange}
               className="register-eventname" placeholder="College Name" required />
-
+            <p>Event Name</p>
+            <input type="text" className='register-eventname' />
             <p>Event Date</p>
             <input type="date" name="eventDate" value={eventData.eventDate}
               onChange={handleChange} className="register-eventname" required />
