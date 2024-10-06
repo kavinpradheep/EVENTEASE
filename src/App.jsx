@@ -1,9 +1,6 @@
 import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { gapi } from 'gapi-script';
 
-import LoginButton from './components/login';
-import LogoutButton from './components/logout';
 import Events from './components/events/events';
 import Login from './components/login/Login';
 import Mainpage from './components/homepage/home';
@@ -13,22 +10,11 @@ const clientId = "809188169045-fk7d1hqogk3fbm3692fpognmj967171p.apps.googleuserc
 
 const App = () => {
 
-  useEffect(() => {
-    function start() {
-      gapi.client.init({
-        clientId: clientId,
-        scope: ''
-      });
-    }
-    gapi.load('client:auth2', start);
-  }, []);
-
+  
   return (
     <Router>
       <div className="App">
-        {/* Google Auth Buttons */}
-        <LoginButton />
-        <LogoutButton />
+        
 
         {/* React Router Pages */}
         <Routes>
