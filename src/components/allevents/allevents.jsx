@@ -5,7 +5,6 @@ import eventpopup from '../../../assests/event_register_popup.jpg';
 
 const Events = () => {
     const navigate = useNavigate();
-    const [events, setEvents] = useState([]); // State to hold events data
 
     const homeclick = () => {
         navigate('/Mainpage');
@@ -24,6 +23,8 @@ const Events = () => {
         navigate(`/event/${eventId}`); // Adjust the route to include the event ID
     };
 
+    const [events, setEvents] = useState([]); // State to hold events data
+
     // Fetch events data from the backend
     useEffect(() => {
         const fetchEvents = async () => {
@@ -39,8 +40,8 @@ const Events = () => {
             }
         };
 
-        fetchEvents(); // Call the fetch function
-    }, []); // Empty dependency array means it runs once when the component mounts
+        fetchEvents(); 
+    }, []); 
 
     return (
         <div className="events-main">
@@ -52,6 +53,7 @@ const Events = () => {
                             Home
                         </div>
                         <div className="event-nav-events">Events</div>
+                        <div className="event-nav-hall">Hall</div>
                         <div className="about">About Us</div>
                         <div className="contact">Contact Us</div>
                     </div>
@@ -71,7 +73,7 @@ const Events = () => {
                 </div>
                 <div className="event-container">
                     {events.length === 0 ? (
-                        <p>No events available.</p> // Message for no events
+                        <p>No events available.</p> 
                     ) : (
                         events.map((event) => (
                             <div className="event-container-event" key={event._id}>
