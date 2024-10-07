@@ -8,7 +8,7 @@ const Login = () => {
   //navigation
   const navigate = useNavigate();
   const handlebuttonclick = () =>{
-    navigate('/Mainpage') //navigate to main page
+    navigate('/Mainpage') 
   }
 
   const [form, setForm] = useState({

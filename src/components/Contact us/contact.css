@@ -1,0 +1,67 @@
+/* Page layout styling */
+.contact-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #e7d1ec;
+    font-family: Arial, sans-serif;
+    padding: 40px 20px;
+}
+
+/* Header styling with background image for Contact Us bar */
+.contact-header {
+    background-image: url('https://img.freepik.com/free-photo/beautiful-view-sunset-with-purple-clouds-beach_181624-30209.jpg?size=626&ext=jpg&ga=GA1.1.1819120589.1727913600&semt=ais_hybrid'); /* Replace with your image path */
+    background-size: cover;
+    background-position: center;
+    width: 100%;
+    text-align: center;
+    padding: 80px 0;
+    margin-bottom: 40px;
+    color: white;
+    border-radius: 10px;
+}
+
+.contact-header h2 {
+    font-size: 48px;
+    font-weight: bold;
+    margin: 0;
+}
+
+/* Contact content styling */
+.contact-content {
+    display: flex;
+    max-width: 1200px;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.contact-details {
+    width: 40%;
+    padding-right: 40px;
+}
+
+.contact-details p {
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+
+.contact-form {
+    width: 55%;
+    background: white;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Form styling */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 10px;
+    font-size: 16px;
+}
+

@@ -30,7 +30,7 @@ const Eventregister = () => {
   const handleImageChange = (e) => {
     setEventPoster(e.target.files[0]);
   };
-
+  
   const handleEventCountChange = (count) => {
     setEventCount(count);
     const newEvents = Array.from({ length: count }, (_, index) => ({

@@ -9,6 +9,9 @@ const Event = () => {
     const homeclick = () => {
         navigate('/Mainpage');
     };
+    const aboutusclick = () =>{
+        navigate('/aboutUs')
+    }
 
     useEffect(() => {
         // Fetch the event details from the server
@@ -51,10 +54,11 @@ const Event = () => {
                 <div className="event-detail-about-event-title">
                     About Event
                 </div>
-
+                
                 <div className="event-detail-aboutevent">
                     {eventData.detailedInfo} {/* Dynamic About Event */}
                 </div>
+
                 <p className='event-detail-typeofevent-title'>Events</p>
                 <div className="event-detail-typeofevent">
                     {eventData.events && eventData.events.map((eventItem, index) => (
