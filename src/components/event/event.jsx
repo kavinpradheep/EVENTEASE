@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-
+import './event.css'
 const Event = () => {
     const navigate = useNavigate();
     const { id } = useParams(); // Get the event ID from the URL
@@ -39,30 +39,32 @@ const Event = () => {
                 </div>
 
                 <div className="event-main-event-name">
-                    <strong>Main Event:</strong> {eventData.eventName} {/* Dynamic Main Event Name */}
+                     {eventData.eventName} {/* Dynamic Main Event Name */}
                 </div>
 
                 <div className="event-detail-description">
                     {eventData.description} {/* Dynamic Description */}
                 </div>
 
-                <img className="event-detail-poster" src={`http://localhost:5000/${eventData.eventPoster}`} alt={`${eventData.collegeName} Poster`} /> {/* Dynamic Image */}
+                <img className="event-detail-poster" src={`http://localhost:5000/${eventData.eventPoster}`} 
+                alt={`${eventData.collegeName} Poster`} /> {/* Dynamic Image */}
+                <div className="event-detail-about-event-title">
+                    About Event
+                </div>
 
                 <div className="event-detail-aboutevent">
                     {eventData.detailedInfo} {/* Dynamic About Event */}
                 </div>
-
+                <p className='event-detail-typeofevent-title'>Events</p>
                 <div className="event-detail-typeofevent">
-                    <strong>Sub-events:</strong>
                     {eventData.events && eventData.events.map((eventItem, index) => (
                         <div key={index}>{eventItem.eventName}</div> // Displaying sub-event names (typeOfEvent equivalent)
                     ))}
                 </div>
-
+                <p className='event-detail-webinarlink-title'>Webinar Link</p>
                 <div className="event-detail-webinar">
                     {eventData.webinarLink && (
                         <div>
-                            <strong>Webinar Link:</strong> 
                             <a href={eventData.webinarLink} target="_blank" rel="noopener noreferrer">{eventData.webinarLink}</a> {/* Dynamic Webinar Link */}
                         </div>
                     )}
