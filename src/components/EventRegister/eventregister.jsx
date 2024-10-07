@@ -4,17 +4,21 @@ import './eventregister.css';
 
 const Eventregister = () => {
   const navigate = useNavigate();
-  const [eventCount, setEventCount] = useState(1); // State to hold the number of events
-  const [events, setEvents] = useState([{ eventName: '' }]); // State to hold event details
+  const [eventCount, setEventCount] = useState(1); // State to hold the number of sub-events
+  const [events, setEvents] = useState([{ eventName: '' }]); // State to hold sub-event details
   const [contactCount, setContactCount] = useState(1); // State to hold the number of contacts
   const [contacts, setContacts] = useState([{ contactName: '', contactNumber: '' }]); // State to hold contact details
 
   const [eventData, setEventData] = useState({
     collegeName: '',
+    eventName: '', // Main event name
     eventDate: '',
     gformLink: '',
+    webinarLink: '', // Webinar link
     registrationOpen: '',
     registrationClose: '',
+    description: '', // Short description
+    detailedInfo: '', // Detailed information about the event
   });
 
   const [eventPoster, setEventPoster] = useState(null);
@@ -60,12 +64,18 @@ const Eventregister = () => {
     e.preventDefault();
     const formData = new FormData();
 
+    // Append event data to FormData
     formData.append('collegeName', eventData.collegeName);
+    formData.append('eventName', eventData.eventName); // Append main event name
     formData.append('eventDate', eventData.eventDate);
     formData.append('gformLink', eventData.gformLink);
+    formData.append('webinarLink', eventData.webinarLink); // Append webinar link
     formData.append('registrationOpen', eventData.registrationOpen);
     formData.append('registrationClose', eventData.registrationClose);
+    formData.append('description', eventData.description); // Append description
+    formData.append('detailedInfo', eventData.detailedInfo); // Append detailed information
 
+    // Handle event poster file upload
     if (eventPoster) {
       formData.append('eventPoster', eventPoster);
     } else {
@@ -111,7 +121,8 @@ const Eventregister = () => {
           <div className="login" onClick={() => navigate('/')}>Login / Sign Up</div>
         </div>
       </div>
-      {/* Register container open */}
+      
+      {/* Register container */}
       <div className="register-container">
         <div className="register-container-left">
           <h1>Publish Event</h1>
@@ -125,6 +136,10 @@ const Eventregister = () => {
             <input type="text" name="collegeName" value={eventData.collegeName} onChange={handleChange}
               className="register-eventname" placeholder="College Name" required />
 
+            <p>Event Name</p>
+            <input type="text" name="eventName" value={eventData.eventName} onChange={handleChange}
+              className="register-eventname" placeholder="Main Event Name" required />
+
             <p>Event Date</p>
             <input type="date" name="eventDate" value={eventData.eventDate}
               onChange={handleChange} className="register-eventname" required />
@@ -132,6 +147,10 @@ const Eventregister = () => {
             <p>Gform details</p>
             <input type="url" name="gformLink" value={eventData.gformLink} onChange={handleChange}
               className="register-eventname" placeholder="Enter G-form Link" required />
+
+            <p>Webinar Link</p>
+            <input type="url" name="webinarLink" value={eventData.webinarLink} onChange={handleChange}
+              className="register-eventname" placeholder="Enter Webinar Link" required />
 
             <div className="register-event-gformdetails">
               <div>
@@ -148,8 +167,30 @@ const Eventregister = () => {
 
             <p>Event Poster</p>
             <input type="file" name="eventPoster" accept="image/*" onChange={handleImageChange} className="register-poster" required />
+            
+            {/* Short description field */}
+            <p>Enter short description</p>
+            <textarea 
+              className='register-event-description' 
+              name="description" 
+              value={eventData.description} 
+              onChange={handleChange} 
+              placeholder="Short description" 
+              required 
+            />
+            
+            {/* Detailed information field */}
+            <p>Enter detailed information</p>
+            <textarea 
+              className='register-about-event' 
+              name="detailedInfo" 
+              value={eventData.detailedInfo} 
+              onChange={handleChange} 
+              placeholder="Detailed information about the event" 
+              required 
+            />
 
-            <p>How many events do you want to register?</p>
+            <p>How many sub-events do you want to register?</p>
             <input
               type="number"
               value={eventCount}
@@ -160,7 +201,7 @@ const Eventregister = () => {
 
             {Array.from({ length: eventCount }).map((_, index) => (
               <div key={index}>
-                <h3 className='register-event-count'>Event {index + 1} Name</h3>
+                <h3 className='register-event-count'>Sub-event {index + 1} Name</h3>
                 <label>
                   <input
                     type="text"
@@ -168,7 +209,7 @@ const Eventregister = () => {
                     onChange={(e) => handleInputChange(index, 'eventName', e.target.value)}
                     required
                     className="register-eventname"
-                    placeholder="Event Name"
+                    placeholder="Sub-event Name"
                   />
                 </label>
               </div>
@@ -192,28 +233,23 @@ const Eventregister = () => {
                     value={contacts[index]?.contactName || ''}
                     onChange={(e) => handleContactInputChange(index, 'contactName', e.target.value)}
                     required
-                    placeholder='Name'
                     className="register-contactname"
+                    placeholder="Contact Name"
                   />
-                </label>
-                <label>
                   <input
                     type="tel"
                     value={contacts[index]?.contactNumber || ''}
                     onChange={(e) => handleContactInputChange(index, 'contactNumber', e.target.value)}
                     required
-                    placeholder='Number'
                     className="register-contactnumber"
+                    placeholder="Contact Number"
                   />
                 </label>
               </div>
             ))}
 
-            <button type="submit" className="submit-button">Register Event</button>
+            <button type="submit" className="register-publish-button">Publish</button>
           </form>
-        </div>
-        <div className="register-container-right">
-          {/* You can add content or design here */}
         </div>
       </div>
     </div>

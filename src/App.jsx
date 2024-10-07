@@ -1,21 +1,24 @@
-import React from 'react'
+import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 import Events from './components/allevents/allevents';
-import Login from './components/login/Login'
+import Login from './components/login/Login';
 import Mainpage from './components/homepage/home';
 import Eventregister from './components/EventRegister/eventregister';
+import Event from './components/event/event';
+
 const App = () => {
   return (
     <Router>
       <Routes>
-        <Route path='/' element={<Login/>}/>
-        <Route path='/Mainpage' element={<Mainpage/>}/>
-        <Route path='/Events' element={<Events/>}/>
-        <Route path='/EventRegister' element={<Eventregister/>} />
+        <Route path='/' element={<Login />} />
+        <Route path='/Mainpage' element={<Mainpage />} />
+        <Route path='/Events' element={<Events />} />
+        <Route path='/EventRegister' element={<Eventregister />} />
+        <Route path='/event/:id' element={<Event />} /> {/* Updated to dynamic route */}
       </Routes>
     </Router>
-  )
+  );
 }
 
-export default App
+export default App;
