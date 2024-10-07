@@ -15,6 +15,11 @@ const Eventregister = () => {
     gformLink: '',
     registrationOpen: '',
     registrationClose: '',
+    publisherName: '',
+    publisherContact: '',
+    staffInCharge: '',
+    staffContact: '',
+    otpEventName: '',
   });
 
   const [eventPoster, setEventPoster] = useState(null);
@@ -60,11 +65,17 @@ const Eventregister = () => {
     e.preventDefault();
     const formData = new FormData();
 
+    // Append all required fields including the new ones
     formData.append('collegeName', eventData.collegeName);
     formData.append('eventDate', eventData.eventDate);
     formData.append('gformLink', eventData.gformLink);
     formData.append('registrationOpen', eventData.registrationOpen);
     formData.append('registrationClose', eventData.registrationClose);
+    formData.append('publisherName', eventData.publisherName);
+    formData.append('publisherContact', eventData.publisherContact);
+    formData.append('staffInCharge', eventData.staffInCharge);
+    formData.append('staffContact', eventData.staffContact);
+    formData.append('otpEventName', eventData.otpEventName);
 
     if (eventPoster) {
       formData.append('eventPoster', eventPoster);
@@ -121,6 +132,7 @@ const Eventregister = () => {
             <p>Corrections can't be made after publishing</p>
           </div>
           <form onSubmit={handleSubmit} encType="multipart/form-data">
+            {/* Existing form fields for left side */}
             <p>College Name</p>
             <input type="text" name="collegeName" value={eventData.collegeName} onChange={handleChange}
               className="register-eventname" placeholder="College Name" required />
@@ -212,8 +224,87 @@ const Eventregister = () => {
             <button type="submit" className="submit-button">Register Event</button>
           </form>
         </div>
+       {/* right-container*/}
         <div className="register-container-right">
-          {/* You can add content or design here */}
+          <h1>Event details</h1>
+          <form>
+          <p> Event Name</p>
+            <input
+              type="text"
+              name="EventName"
+              value={eventData.EventName}
+              onChange={handleChange}
+              placeholder="Event Name"
+              className='register-details'
+              required
+            />
+
+            <p>Publisher Name</p>
+            <input
+              type="text"
+              name="publisherName"
+              value={eventData.publisherName}
+              onChange={handleChange}
+              placeholder="Publisher Name"
+              className='register-details'
+              required
+            />
+
+            <p>Publisher Contact Info</p>
+            <input
+              type="tel"
+              name="publisherContact"
+              value={eventData.publisherContact}
+              onChange={handleChange}
+              placeholder="Publisher Contact"
+              className='register-details'
+              required
+            />
+
+            <p>Staff In Charge Name</p>
+            <input
+              type="text"
+              name="staffInCharge"
+              value={eventData.staffInCharge}
+              onChange={handleChange}
+              placeholder="Staff In Charge"
+              className='register-details'
+              required
+            />
+
+            <p>Staff In Charge Contact Info</p>
+            <input
+              type="tel"
+              name="staffContact"
+              value={eventData.staffContact}
+              onChange={handleChange}
+              placeholder="Staff Contact"
+              className='register-details'
+              required
+            />
+
+            <p className='OTP'>Email OTP</p>
+            <input
+              type="text"
+              name="otpEventName"
+              value={eventData.otpEventName}
+              onChange={handleChange}
+              placeholder="OTP "
+              className='register-details'
+              required
+            />
+
+           <p className='OTP'>Mobile OTP</p>
+            <input
+              type="text"
+              name="otpEventName"
+              value={eventData.otpEventName}
+              onChange={handleChange}
+              placeholder="OTP "
+              className='register-details'
+              required
+            />
+          </form>
         </div>
       </div>
     </div>

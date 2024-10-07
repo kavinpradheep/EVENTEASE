@@ -10,7 +10,9 @@ const Login = () => {
   const handlebuttonclick = () =>{
     navigate('/Mainpage') //navigate to main page
   }
-
+  const actual = () =>{
+    navigate('/Actuallogin')
+  }
   const [form, setForm] = useState({
     firstName: '',
     lastName: '',
@@ -73,7 +75,7 @@ const Login = () => {
       
       <div className="login-right-section">
         <h1>Create an Account</h1>
-        <p>Already have an account? <span>Log in</span></p>
+        <p>Already have an account? <span onClick={actual}>Log in</span></p>
         
         <form onSubmit={handleSubmit}>
           <div className="name">
