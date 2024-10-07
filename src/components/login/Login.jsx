@@ -10,7 +10,9 @@ const Login = () => {
   const handlebuttonclick = () =>{
     navigate('/Mainpage') //navigate to main page
   }
-
+  const adminloginclick = () => {
+    navigate('/Adminlogin')
+  }
   const [form, setForm] = useState({
     firstName: '',
     lastName: '',
@@ -74,7 +76,7 @@ const Login = () => {
       <div className="login-right-section">
         <h1>Create an Account</h1>
         <p>Already have an account? <span>Log in</span></p>
-        
+        <p onClick={adminloginclick}><span>Admin Log in</span></p>
         <form onSubmit={handleSubmit}>
           <div className="name">
             <input type="text" className="first-name" name="firstName" placeholder="First name"

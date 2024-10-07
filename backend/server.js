@@ -29,6 +29,39 @@ mongoose.connect('mongodb://localhost:27017/eventEaseDB', {
   useUnifiedTopology: true,
 });
 
+// Admin schema
+const adminSchema = new mongoose.Schema({
+  email: { type: String, unique: true },
+  password: String,
+});
+
+const Admin = mongoose.model('Admin', adminSchema);
+
+// Admin login route
+app.post('/api/login', async (req, res) => {
+  const { email, password } = req.body;
+
+  try {
+    // Check if admin exists
+    const admin = await Admin.findOne({ email });
+    if (!admin) {
+      return res.status(400).json({ message: 'Admin not found' });
+    }
+
+    // Verify password
+    const isMatch = await bcrypt.compare(password, admin.password);
+    if (!isMatch) {
+      return res.status(400).json({ message: 'Invalid credentials' });
+    }
+
+    // Successful login
+    res.status(200).json({ message: 'Login successful' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
 // User schema
 const userSchema = new mongoose.Schema({
   firstName: String,

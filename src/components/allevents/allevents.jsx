@@ -17,7 +17,9 @@ const Events = () => {
     const eventregisterclick = () => {
         navigate('/EventRegister');
     };
-
+    const hallclick = () => {
+        navigate('/Hall')
+    }
     // Update view more click to navigate with event ID
     const viewmoreclick = (eventId) => {
         navigate(`/event/${eventId}`); // Adjust the route to include the event ID
@@ -53,7 +55,7 @@ const Events = () => {
                             Home
                         </div>
                         <div className="event-nav-events">Events</div>
-                        <div className="event-nav-hall">Hall</div>
+                        <div className="hall" onClick={hallclick}>Hall</div>
                         <div className="about">About Us</div>
                         <div className="contact">Contact Us</div>
                     </div>

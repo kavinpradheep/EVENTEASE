@@ -20,6 +20,7 @@ const Mainpage = () => {
                     <div className="events" onClick={handleeventclick}>
                         Events
                     </div>
+                    <div className='hall'> Hall</div>
                     <div className="about">
                         About Us
                     </div>
