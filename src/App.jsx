@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
+import Adminhall from './components/adminhall/adminhall';
 import AdminLogin from './components/adminlogin/adminlogin';
 import Events from './components/allevents/allevents';
 import Login from './components/login/Login';
@@ -16,6 +17,7 @@ const App = () => {
 
         <Route path='/' element={<Login />} />
         <Route path='/Adminlogin' element={<AdminLogin />} />
+        <Route path='/Adminhall' element={<Adminhall/>} />
         <Route path='/Mainpage' element={<Mainpage />} />
         <Route path='/Events' element={<Events />} />
         <Route path='/Hall' element={<Hall/>} />

@@ -206,3 +206,9 @@
     color: rgb(49, 100, 244); /* Change color on hover */
     cursor: pointer; /* Pointer cursor */
 }
+/* hall.css */
+
+.highlight {
+    background-color: red !important; /* Change to desired highlight color */
+    color: white !important; /* Change text color for better visibility */
+}

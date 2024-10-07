@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Calendar from 'react-calendar'; // Import React Calendar
 import './hall.css';
 
@@ -6,6 +6,7 @@ const Hall = () => {
     const [activeHall, setActiveHall] = useState(null);
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [selectedTime, setSelectedTime] = useState(null);
+    const [eventDates, setEventDates] = useState([]); // State for storing event dates
 
     const halls = [
         { name: "Hall One", department: "Computer Science" },
@@ -45,6 +46,28 @@ const Hall = () => {
 
     const handleTimeChange = (event) => {
         setSelectedTime(event.target.value);
+    };
+
+    // Fetch event dates from the server when the component mounts
+    useEffect(() => {
+        const fetchEventDates = async () => {
+            try {
+                const response = await fetch('http://localhost:5000/api/events'); // Adjust URL as needed
+                const data = await response.json();
+                const dates = data.map(event => new Date(event.eventDate).toLocaleDateString()); // Convert event dates to a usable format
+                setEventDates(dates);
+            } catch (error) {
+                console.error('Error fetching event dates:', error);
+            }
+        };
+
+        fetchEventDates();
+    }, []);
+
+    // Function to determine if a date has an event
+    const tileClassName = ({ date }) => {
+        const dateString = date.toLocaleDateString();
+        return eventDates.includes(dateString) ? 'highlight' : null; // Apply highlight class if date has an event
     };
 
     return (
@@ -88,8 +111,11 @@ const Hall = () => {
                                                     <p><strong>Projector Availability:</strong> {hallDetails[hall.name].projector}</p>
                                                 </div>
                                                 <div className="details-right-section">
-                                                    <Calendar/>
-                                                    
+                                                    <Calendar 
+                                                        onChange={handleDateChange} 
+                                                        value={selectedDate} 
+                                                        tileClassName={tileClassName} // Apply the tileClassName function
+                                                    />
                                                 </div>
                                             </div>
                                         </td>

@@ -121,6 +121,12 @@ const eventSchema = new mongoose.Schema({
       contactNumber: String, // Will be used to display contact details on frontend
     },
   ],
+  lockedDates: [
+    {
+      hallName: String,
+      date: Date,
+    },
+  ],
 });
 
 const Event = mongoose.model('Event', eventSchema);
@@ -183,10 +189,63 @@ app.post('/api/registerEvent', upload.single('eventPoster'), async (req, res) =>
       webinarLink, // Add webinarLink field
       events: JSON.parse(events), // Parse JSON data sent from the frontend
       contacts: JSON.parse(contacts), // Parse JSON data sent from the frontend
+      lockedDates: [], // Initialize locked dates as an empty array
     });
 
     await newEvent.save();
     res.status(201).json({ message: 'Event registered successfully' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
+// Lock event dates route
+app.post('/api/lockEventDate', async (req, res) => {
+  const { eventId, hallName, date } = req.body;
+
+  try {
+    const event = await Event.findById(eventId);
+    if (!event) {
+      return res.status(404).json({ error: 'Event not found' });
+    }
+
+    // Check if the date is already locked
+    const alreadyLocked = event.lockedDates.some(
+      (lockedDate) => lockedDate.date.toString() === new Date(date).toString() && lockedDate.hallName === hallName
+    );
+
+    if (alreadyLocked) {
+      return res.status(400).json({ message: 'Date already locked for this hall' });
+    }
+
+    // Lock the date
+    event.lockedDates.push({ hallName, date: new Date(date) });
+    await event.save();
+    res.status(200).json({ message: 'Date locked successfully' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
+// Unlock event dates route
+app.post('/api/unlockEventDate', async (req, res) => {
+  const { eventId, hallName, date } = req.body;
+
+  try {
+    const event = await Event.findById(eventId);
+    if (!event) {
+      return res.status(404).json({ error: 'Event not found' });
+    }
+
+    // Remove the locked date
+    event.lockedDates = event.lockedDates.filter(
+      (lockedDate) => !(lockedDate.date.toString() === new Date(date).toString() && lockedDate.hallName === hallName)
+    );
+
+    await event.save();
+    res.status(200).json({ message: 'Date unlocked successfully' });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Server error' });
