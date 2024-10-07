@@ -28,7 +28,8 @@ const Mainpage = () => {
                     <div className="events" onClick={handleeventclick}>
                         Events
                     </div>
-                    <div className="about" onClick={aboutusclick}>
+                    <div className='hall'> Hall</div>
+                    <div className="about">
                         About Us
                     </div>
                     <div className="contact" onClick={contactclick}>

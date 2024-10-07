@@ -3,16 +3,18 @@ import { useNavigate, useParams } from 'react-router-dom';
 import './event.css'
 const Event = () => {
     const navigate = useNavigate();
+    
     const { id } = useParams(); // Get the event ID from the URL
     const [eventData, setEventData] = useState(null); // State to hold event details
-
     const homeclick = () => {
         navigate('/Mainpage');
     };
-    const aboutusclick = () =>{
-        navigate('/aboutUs')
+    const loginclick = () => {
+        navigate('/')
     }
-
+    const eventsclick = () =>{
+        navigate('/Events')
+    }
     useEffect(() => {
         // Fetch the event details from the server
         const fetchEventData = async () => {
@@ -32,59 +34,81 @@ const Event = () => {
         fetchEventData();
     }, [id]);
 
-    if (!eventData) return <div>Loading...</div>; // Loading state
+    if (!eventData) return <div>Loading...</div>; 
 
     return (
         <div className="events-main">
+            <div className="events-main-holder">
+                <div className="header">
+                    <div className="left-section">EventEase</div>
+                    <div className="middle-section">
+                        <div className="event-nav-home" onClick={homeclick}>
+                            Home
+                        </div>
+                        <div className="event-nav-events" onClick={eventsclick}>Events</div>
+                        <div className="event-nav-hall">Hall</div>
+                        <div className="about">About Us</div>
+                        <div className="contact">Contact Us</div>
+                    </div>
+                    <div className="right-section">
+                        <div className="login" onClick={loginclick}>Login / Sign Up</div>
+                        <span>{new Date().toLocaleDateString()}</span> {/* Current date */}
+                    </div>
+                </div>
+            </div>
+            <div className="event-details-popup">
+                Event Quick link container
+            </div>
             <div className="event-detail-container">
                 <div className="event-detail-name">
-                    {eventData.collegeName} {/* Dynamic College Name */}
+                    {eventData.collegeName} 
                 </div>
 
                 <div className="event-main-event-name">
-                     {eventData.eventName} {/* Dynamic Main Event Name */}
+                     {eventData.eventName} 
                 </div>
 
                 <div className="event-detail-description">
-                    {eventData.description} {/* Dynamic Description */}
+                    {eventData.description} 
                 </div>
 
                 <img className="event-detail-poster" src={`http://localhost:5000/${eventData.eventPoster}`} 
-                alt={`${eventData.collegeName} Poster`} /> {/* Dynamic Image */}
+                alt={`${eventData.collegeName} Poster`} /> 
                 <div className="event-detail-about-event-title">
                     About Event
                 </div>
                 
                 <div className="event-detail-aboutevent">
-                    {eventData.detailedInfo} {/* Dynamic About Event */}
+                    {eventData.detailedInfo} 
                 </div>
 
                 <p className='event-detail-typeofevent-title'>Events</p>
                 <div className="event-detail-typeofevent">
                     {eventData.events && eventData.events.map((eventItem, index) => (
-                        <div key={index}>{eventItem.eventName}</div> // Displaying sub-event names (typeOfEvent equivalent)
+                        <div key={index}>{eventItem.eventName}</div> 
                     ))}
                 </div>
                 <p className='event-detail-webinarlink-title'>Webinar Link</p>
                 <div className="event-detail-webinar">
                     {eventData.webinarLink && (
                         <div>
-                            <a href={eventData.webinarLink} target="_blank" rel="noopener noreferrer">{eventData.webinarLink}</a> {/* Dynamic Webinar Link */}
+                            <a href={eventData.webinarLink} target="_blank" rel="noopener noreferrer">
+                                {eventData.webinarLink}</a> 
                         </div>
                     )}
                 </div>
-
-                <div className="event-detail-contact">
-                    <strong>Contact Details:</strong>
+                <p className='event-detail-contact-title'>Contact Details</p>
+                <div className="event-detail-contact" >
                     {eventData.contacts && eventData.contacts.map((contact, index) => (
                         <div key={index}>
                             {contact.contactName}: {contact.contactNumber}
                         </div>
-                    ))} {/* Dynamic Contact Details */}
+                    ))} 
                 </div>
-
-                <div className="event-detail-registration">
-                    <strong>Registration Link:</strong> 
+                <p className="event-detail-registration-link-title">
+                    Registration Link
+                </p>
+                <div className="event-detail-registration-link">
                     <a href={eventData.gformLink} target="_blank" rel="noopener noreferrer">Register Here</a> {/* Dynamic GForm Link */}
                 </div>
             </div>

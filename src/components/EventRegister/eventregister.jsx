@@ -108,12 +108,12 @@ const Eventregister = () => {
 
   return (
     <div className="main">
-      {/* Header section */}
       <div className="header">
         <div className="left-section">EventEase</div>
         <div className="middle-section">
           <div className="event-nav-home" onClick={() => navigate('/Mainpage')}>Home</div>
           <div className="event-nav-events" onClick={() => navigate('/Events')}>Events</div>
+          <div className="event-nav-hall">Hall</div>
           <div className="about">About Us</div>
           <div className="contact">Contact Us</div>
         </div>
@@ -122,9 +122,9 @@ const Eventregister = () => {
         </div>
       </div>
       
-      {/* Register container */}
       <div className="register-container">
         <div className="register-container-left">
+
           <h1>Publish Event</h1>
           <div className="rcl-h41">
             <p>Upload the event details</p>
@@ -168,23 +168,16 @@ const Eventregister = () => {
             <p>Event Poster</p>
             <input type="file" name="eventPoster" accept="image/*" onChange={handleImageChange} className="register-poster" required />
             
-            {/* Short description field */}
             <p>Enter short description</p>
-            <textarea 
-              className='register-event-description' 
-              name="description" 
+            <textarea  className='register-event-description' name="description" 
               value={eventData.description} 
               onChange={handleChange} 
               placeholder="Short description" 
               required 
             />
             
-            {/* Detailed information field */}
             <p>Enter detailed information</p>
-            <textarea 
-              className='register-about-event' 
-              name="detailedInfo" 
-              value={eventData.detailedInfo} 
+            <textarea className='register-about-event' name="detailedInfo" value={eventData.detailedInfo} 
               onChange={handleChange} 
               placeholder="Detailed information about the event" 
               required 
@@ -247,9 +240,12 @@ const Eventregister = () => {
                 </label>
               </div>
             ))}
-
+          
             <button type="submit" className="register-publish-button">Publish</button>
           </form>
+        </div>
+        <div className="register-container-right">
+
         </div>
       </div>
     </div>
