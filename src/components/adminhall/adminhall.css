@@ -1,0 +1,19 @@
+.highlight {
+    background-color: red !important; /* Change to your preferred color */
+    color: white; /* Change text color to white */
+}
+
+.confirmation-popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    border: 1px solid #ccc;
+    padding: 20px;
+    z-index: 1000; /* Ensure popup is above other elements */
+}
+
+.confirmation-popup button {
+    margin: 5px;
+}
