@@ -4,6 +4,13 @@ import bcrypt from 'bcryptjs';
 import cors from 'cors';
 import multer from 'multer';
 import path from 'path';
+import jwt from 'jsonwebtoken';
+import fs from 'fs';
+import dotenv from 'dotenv';
+import { body, validationResult } from 'express-validator';
+
+// Initialize dotenv for environment variables
+dotenv.config();
 
 // Initialize Express app
 const app = express();
@@ -11,22 +18,35 @@ app.use(cors());
 app.use(express.json());
 app.use('/uploads', express.static('uploads')); // Serve static files from uploads folder
 
+// Ensure uploads directory exists
+if (!fs.existsSync('uploads')) {
+  fs.mkdirSync('uploads');
+}
+
 // Set up multer for file uploads
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, 'uploads/'); // Ensure 'uploads/' folder exists
+    cb(null, 'uploads/');
   },
   filename: (req, file, cb) => {
-    cb(null, Date.now() + path.extname(file.originalname)); // Name file with timestamp and its original extension
+    cb(null, Date.now() + path.extname(file.originalname));
   },
 });
 
 const upload = multer({ storage });
 
 // MongoDB connection
-mongoose.connect('mongodb://localhost:27017/eventEaseDB', {
+mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
+});
+
+mongoose.connection.once('open', () => {
+  console.log('Connected to MongoDB');
+});
+
+mongoose.connection.on('error', (err) => {
+  console.error('MongoDB connection error:', err);
 });
 
 // Admin schema
@@ -42,20 +62,19 @@ app.post('/api/login', async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    // Check if admin exists
     const admin = await Admin.findOne({ email });
     if (!admin) {
       return res.status(400).json({ message: 'Admin not found' });
     }
 
-    // Verify password
     const isMatch = await bcrypt.compare(password, admin.password);
     if (!isMatch) {
       return res.status(400).json({ message: 'Invalid credentials' });
     }
 
-    // Successful login
-    res.status(200).json({ message: 'Login successful' });
+    // Generate JWT Token
+    const token = jwt.sign({ id: admin._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    res.status(200).json({ message: 'Login successful', token });
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: 'Server error' });
@@ -72,31 +91,45 @@ const userSchema = new mongoose.Schema({
 
 const User = mongoose.model('User', userSchema);
 
-// Signup route
-app.post('/api/signup', async (req, res) => {
-  const { firstName, lastName, email, password } = req.body;
-
-  try {
-    const existingUser = await User.findOne({ email });
-    if (existingUser) {
-      return res.status(400).json({ error: 'User already exists' });
+// Signup route with validation
+app.post(
+  '/api/signup',
+  [
+    body('firstName').notEmpty().withMessage('First name is required'),
+    body('lastName').notEmpty().withMessage('Last name is required'),
+    body('email').isEmail().withMessage('Invalid email'),
+    body('password').isLength({ min: 6 }).withMessage('Password must be at least 6 characters'),
+  ],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
     }
 
-    const hashedPassword = await bcrypt.hash(password, 10);
-    const newUser = new User({
-      firstName,
-      lastName,
-      email,
-      password: hashedPassword,
-    });
+    const { firstName, lastName, email, password } = req.body;
 
-    await newUser.save();
-    res.status(201).json({ message: 'User created successfully' });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: 'Server error' });
+    try {
+      const existingUser = await User.findOne({ email });
+      if (existingUser) {
+        return res.status(400).json({ error: 'User already exists' });
+      }
+
+      const hashedPassword = await bcrypt.hash(password, 10);
+      const newUser = new User({
+        firstName,
+        lastName,
+        email,
+        password: hashedPassword,
+      });
+
+      await newUser.save();
+      res.status(201).json({ message: 'User created successfully' });
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ error: 'Server error' });
+    }
   }
-});
+);
 
 // Event schema
 const eventSchema = new mongoose.Schema({
@@ -167,8 +200,8 @@ app.post('/api/registerEvent', upload.single('eventPoster'), async (req, res) =>
     registrationClose,
     description,
     detailedInfo,
-    eventName, // Main Event Name (New field)
-    webinarLink, // Webinar Link (New field)
+    eventName,
+    webinarLink,
     events,
     contacts,
   } = req.body;
@@ -183,13 +216,13 @@ app.post('/api/registerEvent', upload.single('eventPoster'), async (req, res) =>
       registrationOpen,
       registrationClose,
       eventPoster,
-      description,  // Add description field
-      detailedInfo,  // Add detailedInfo field
-      eventName,  // Add eventName field (Main event)
-      webinarLink, // Add webinarLink field
-      events: JSON.parse(events), // Parse JSON data sent from the frontend
-      contacts: JSON.parse(contacts), // Parse JSON data sent from the frontend
-      lockedDates: [], // Initialize locked dates as an empty array
+      description,
+      detailedInfo,
+      eventName,
+      webinarLink,
+      events: JSON.parse(events),
+      contacts: JSON.parse(contacts),
+      lockedDates: [],
     });
 
     await newEvent.save();

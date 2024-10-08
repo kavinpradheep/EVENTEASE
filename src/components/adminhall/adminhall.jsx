@@ -40,7 +40,7 @@ const Adminhall = () => {
         setSelectedDate(date);
 
         // Check if the date is already confirmed for the active hall
-        if (confirmedDates[activeHall] && confirmedDates[activeHall].some(confirmedDate => confirmedDate.toDateString() === date.toDateString())) {
+        if (confirmedDates[activeHall] && confirmedDates[activeHall].some(confirmedDate => new Date(confirmedDate).toDateString() === date.toDateString())) {
             setUnlockPopupVisible(true); // Show unlock confirmation popup
         } else {
             setConfirmPopupVisible(true); // Show lock confirmation popup
@@ -62,7 +62,7 @@ const Adminhall = () => {
     const handleConfirmUnlock = () => {
         if (confirmedDates[activeHall]) {
             // Remove the confirmed date
-            confirmedDates[activeHall] = confirmedDates[activeHall].filter(confirmedDate => confirmedDate.toDateString() !== selectedDate.toDateString());
+            confirmedDates[activeHall] = confirmedDates[activeHall].filter(confirmedDate => new Date(confirmedDate).toDateString() !== selectedDate.toDateString());
             setConfirmedDates({ ...confirmedDates }); // Update the state
             localStorage.setItem('eventDates', JSON.stringify(confirmedDates)); // Update local storage
         }
@@ -120,7 +120,7 @@ const Adminhall = () => {
                                                         value={selectedDate}
                                                         tileClassName={({ date, view }) => {
                                                             // Change the background color of confirmed dates for the active hall
-                                                            return confirmedDates[hall.name] && confirmedDates[hall.name].some(confirmedDate => confirmedDate.toDateString() === date.toDateString()) ? 'highlight' : '';
+                                                            return confirmedDates[hall.name] && confirmedDates[hall.name].some(confirmedDate => new Date(confirmedDate).toDateString() === date.toDateString()) ? 'highlight' : '';
                                                         }}
                                                     />
                                                 </div>
