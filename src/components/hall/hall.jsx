@@ -48,16 +48,19 @@ const Hall = () => {
         setSelectedTime(event.target.value);
     };
 
-    // Fetch event dates from the server when the component mounts
+    // Fetch event dates from the API when the component mounts
     useEffect(() => {
         const fetchEventDates = async () => {
             try {
-                const response = await fetch('http://localhost:5000/api/events'); // Adjust URL as needed
-                const data = await response.json();
-                const dates = data.map(event => new Date(event.eventDate).toLocaleDateString()); // Convert event dates to a usable format
-                setEventDates(dates);
+                const response = await fetch('http://localhost:5000/api/lockeddates'); // Fetch from your local server
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const dates = await response.json();
+                const formattedDates = dates.map(event => new Date(event.date).toLocaleDateString()); // Convert event dates to a usable format
+                setEventDates(formattedDates);
             } catch (error) {
-                console.error('Error fetching event dates:', error);
+                console.error('Error fetching locked dates:', error);
             }
         };
 

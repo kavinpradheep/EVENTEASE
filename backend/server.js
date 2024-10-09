@@ -36,7 +36,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 // MongoDB connection
-mongoose.connect('mongodb://localhost:27017/eventEaseDB', {
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/eventEaseDB', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
@@ -154,21 +154,34 @@ const eventSchema = new mongoose.Schema({
       contactNumber: String, // Will be used to display contact details on frontend
     },
   ],
-  lockedDates: [
-    {
-      hallName: String,
-      date: Date,
-    },
-  ],
 });
 
 const Event = mongoose.model('Event', eventSchema);
+
+// Locked Dates Schema
+const lockedDateSchema = new mongoose.Schema({
+  hallName: String,
+  date: Date,
+});
+
+const LockedDate = mongoose.model('LockedDate', lockedDateSchema);
 
 // Fetch all events route
 app.get('/api/events', async (req, res) => {
   try {
     const events = await Event.find();
     res.status(200).json(events);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
+// Fetch locked dates route
+app.get('/api/lockeddates', async (req, res) => {
+  try {
+    const lockedDates = await LockedDate.find(); // Fetch locked dates from the database
+    res.status(200).json(lockedDates);
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Server error' });
@@ -222,7 +235,6 @@ app.post('/api/registerEvent', upload.single('eventPoster'), async (req, res) =>
       webinarLink,
       events: JSON.parse(events),
       contacts: JSON.parse(contacts),
-      lockedDates: [],
     });
 
     await newEvent.save();
@@ -234,27 +246,19 @@ app.post('/api/registerEvent', upload.single('eventPoster'), async (req, res) =>
 });
 
 // Lock event dates route
-app.post('/api/lockEventDate', async (req, res) => {
-  const { eventId, hallName, date } = req.body;
+app.post('/api/lockeddates', async (req, res) => {
+  const { hallName, date } = req.body;
 
   try {
-    const event = await Event.findById(eventId);
-    if (!event) {
-      return res.status(404).json({ error: 'Event not found' });
-    }
-
     // Check if the date is already locked
-    const alreadyLocked = event.lockedDates.some(
-      (lockedDate) => lockedDate.date.toString() === new Date(date).toString() && lockedDate.hallName === hallName
-    );
-
+    const alreadyLocked = await LockedDate.findOne({ hallName, date: new Date(date) });
     if (alreadyLocked) {
       return res.status(400).json({ message: 'Date already locked for this hall' });
     }
 
     // Lock the date
-    event.lockedDates.push({ hallName, date: new Date(date) });
-    await event.save();
+    const lockedDate = new LockedDate({ hallName, date: new Date(date) });
+    await lockedDate.save();
     res.status(200).json({ message: 'Date locked successfully' });
   } catch (err) {
     console.error(err);
@@ -264,20 +268,11 @@ app.post('/api/lockEventDate', async (req, res) => {
 
 // Unlock event dates route
 app.post('/api/unlockEventDate', async (req, res) => {
-  const { eventId, hallName, date } = req.body;
+  const { hallName, date } = req.body;
 
   try {
-    const event = await Event.findById(eventId);
-    if (!event) {
-      return res.status(404).json({ error: 'Event not found' });
-    }
-
     // Remove the locked date
-    event.lockedDates = event.lockedDates.filter(
-      (lockedDate) => !(lockedDate.date.toString() === new Date(date).toString() && lockedDate.hallName === hallName)
-    );
-
-    await event.save();
+    await LockedDate.deleteOne({ hallName, date: new Date(date) });
     res.status(200).json({ message: 'Date unlocked successfully' });
   } catch (err) {
     console.error(err);
