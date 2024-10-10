@@ -1,8 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import Calendar from 'react-calendar'; // Import React Calendar
 import './hall.css';
+import { useNavigate } from 'react-router-dom';
+
 
 const Hall = () => {
+    const navigate = useNavigate();
+    const homeclick = () =>{
+        navigate('/Homepage')
+    }
+    const eventsclick = () =>{
+        navigate('/Eventspage')
+    }
+    const loginclick = () => {
+        navigate('/Login-signup-page')
+    }
     const [activeHall, setActiveHall] = useState(null);
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [selectedTime, setSelectedTime] = useState(null);
@@ -78,13 +90,16 @@ const Hall = () => {
             <div className="header">
                 <div className="left-section">EventEase</div>
                 <div className="middle-section">
-                    <div className="home">Home</div>
-                    <div className="events">Events</div>
+                    <div className="home" onClick={homeclick}>Home</div>
+                    <div className="events" onClick={eventsclick}>Events</div>
                     <div className="hall">Hall</div>
                     <div className="about">About Us</div>
                     <div className="contact">Contact Us</div>
                 </div>
-                <div className="right-section">date</div>
+                <div className="right-section">
+                    <div className="login" onClick={loginclick}>Login / Sign Up</div>
+                    <span>{new Date().toLocaleDateString()}</span> 
+                </div>
             </div>
 
             <div className="hall-main-container">

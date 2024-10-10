@@ -15,13 +15,13 @@ const App = () => {
     <Router>
       <Routes>
 
-        <Route path='/' element={<Login />} />
+        <Route path='/Login-signup-page' element={<Login />} />
         <Route path='/Adminlogin' element={<AdminLogin />} />
         <Route path='/Adminhall' element={<Adminhall/>} />
-        <Route path='/Mainpage' element={<Mainpage />} />
-        <Route path='/Events' element={<Events />} />
-        <Route path='/Hall' element={<Hall/>} />
-        <Route path='/EventRegister' element={<Eventregister />} />
+        <Route path='/Homepage' element={<Mainpage />} />
+        <Route path='/Eventspage' element={<Events />} />
+        <Route path='/Hallpage' element={<Hall/>} />
+        <Route path='/EventRegisterpage' element={<Eventregister />} />
         <Route path='/event/:id' element={<Event />} /> {/* Updated to dynamic route */}
       </Routes>
     </Router>

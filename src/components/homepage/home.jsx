@@ -3,9 +3,13 @@ import { useNavigate } from 'react-router-dom'
 import './home.css'
 const Mainpage = () => {
     const navigate = useNavigate();
-    const handleeventclick = () =>{
-        navigate('/Events')
+    const eventsclick = () =>{
+        navigate('/Eventspage')
     }
+    const hallclick = () =>{
+        navigate('/Hallpage')
+    }
+    
   return (
     <div className="main">
         <div className="main-holder">
@@ -17,10 +21,10 @@ const Mainpage = () => {
                     <div className="home">
                         Home
                     </div>
-                    <div className="events" onClick={handleeventclick}>
+                    <div className="events" onClick={eventsclick}>
                         Events
                     </div>
-                    <div className='hall'> Hall</div>
+                    <div className='hall' onClick={hallclick}> Hall</div>
                     <div className="about">
                         About Us
                     </div>

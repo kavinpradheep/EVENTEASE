@@ -8,7 +8,7 @@ const Login = () => {
   //navigation
   const navigate = useNavigate();
   const handlebuttonclick = () =>{
-    navigate('/Mainpage') //navigate to main page
+    navigate('/Homepage') //navigate to main page
   }
   const adminloginclick = () => {
     navigate('/Adminlogin')
