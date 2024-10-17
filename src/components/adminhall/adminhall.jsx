@@ -69,7 +69,7 @@ const Adminhall = () => {
     const handleConfirmLock = async () => {
         try {
             // Lock the date on the backend
-            const response = await fetch('http://localhost:5000/api/lockEventDate', {
+            const response = await fetch('http://localhost:5000/api/lockeddates', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({

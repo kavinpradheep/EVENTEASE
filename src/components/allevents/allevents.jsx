@@ -7,7 +7,7 @@ const Events = () => {
     const navigate = useNavigate();
 
     const homeclick = () => {
-        navigate('/Homepage');
+        navigate('/');
     };
 
     const loginclick = () => {

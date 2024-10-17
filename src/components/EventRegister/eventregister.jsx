@@ -5,7 +5,7 @@ import './eventregister.css';
 const Eventregister = () => {
   const navigate = useNavigate();
   const homeclick = () =>{
-    navigate('/Homepage')
+    navigate('/')
   }
   const eventsclick = () =>{
     navigate('/Eventspage')
@@ -108,7 +108,7 @@ const Eventregister = () => {
       const result = await response.json();
       if (response.status === 201) {
         alert('Event registered successfully');
-        navigate('/Events');
+        navigate('/Eventspage');
       } else {
         alert(result.error || "Error registering event");
       }

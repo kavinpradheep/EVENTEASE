@@ -3,22 +3,21 @@ import Calendar from 'react-calendar'; // Import React Calendar
 import './hall.css';
 import { useNavigate } from 'react-router-dom';
 
-
 const Hall = () => {
     const navigate = useNavigate();
     const homeclick = () =>{
-        navigate('/Homepage')
-    }
+        navigate('/')
+    };
     const eventsclick = () =>{
         navigate('/Eventspage')
-    }
+    };
     const loginclick = () => {
         navigate('/Login-signup-page')
-    }
-    const [activeHall, setActiveHall] = useState(null);
+    };
+
+    const [activeHall, setActiveHall] = useState(null); // For tracking which hall is selected
     const [selectedDate, setSelectedDate] = useState(new Date());
-    const [selectedTime, setSelectedTime] = useState(null);
-    const [eventDates, setEventDates] = useState([]); // State for storing event dates
+    const [eventDates, setEventDates] = useState({}); // Store dates for all halls, keyed by hallName
 
     const halls = [
         { name: "Hall One", department: "Computer Science" },
@@ -53,11 +52,6 @@ const Hall = () => {
 
     const handleDateChange = (date) => {
         setSelectedDate(date);
-        setSelectedTime(null); // Reset time selection when date changes
-    };
-
-    const handleTimeChange = (event) => {
-        setSelectedTime(event.target.value);
     };
 
     // Fetch event dates from the API when the component mounts
@@ -69,8 +63,18 @@ const Hall = () => {
                     throw new Error('Network response was not ok');
                 }
                 const dates = await response.json();
-                const formattedDates = dates.map(event => new Date(event.date).toLocaleDateString()); // Convert event dates to a usable format
-                setEventDates(formattedDates);
+
+                // Group event dates by hall name
+                const groupedDates = {};
+                dates.forEach(event => {
+                    const hallName = event.hallName;
+                    if (!groupedDates[hallName]) {
+                        groupedDates[hallName] = [];
+                    }
+                    groupedDates[hallName].push(new Date(event.date).toISOString().split('T')[0]);
+                });
+                
+                setEventDates(groupedDates); // Store locked dates by hall
             } catch (error) {
                 console.error('Error fetching locked dates:', error);
             }
@@ -79,10 +83,13 @@ const Hall = () => {
         fetchEventDates();
     }, []);
 
-    // Function to determine if a date has an event
+    // Function to determine if a date has an event, but only for the active hall
     const tileClassName = ({ date }) => {
-        const dateString = date.toLocaleDateString();
-        return eventDates.includes(dateString) ? 'highlight' : null; // Apply highlight class if date has an event
+        const isoDate = date.toISOString().split('T')[0]; // Format date in ISO format
+        if (activeHall && eventDates[activeHall]) {
+            return eventDates[activeHall].includes(isoDate) ? 'highlight' : null; // Check if date is locked for the active hall
+        }
+        return null;
     };
 
     return (
