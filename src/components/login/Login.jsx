@@ -13,6 +13,12 @@ const Login = () => {
   const adminloginclick = () => {
     navigate('/Adminlogin')
   }
+<<<<<<< HEAD
+=======
+  const actual = () =>{
+    navigate('/Actuallogin')
+  }
+>>>>>>> 7a22d3db5875e1d9ea6c4c4e033f031344ce6349
   const [form, setForm] = useState({
     firstName: '',
     lastName: '',
@@ -75,8 +81,13 @@ const Login = () => {
       
       <div className="login-right-section">
         <h1>Create an Account</h1>
+<<<<<<< HEAD
         <p>Already have an account? <span>Log in</span></p>
         <p onClick={adminloginclick}><span>Admin Log in</span></p>
+=======
+        <p>Already have an account? <span onClick={actual}>Log in</span></p>
+        
+>>>>>>> 7a22d3db5875e1d9ea6c4c4e033f031344ce6349
         <form onSubmit={handleSubmit}>
           <div className="name">
             <input type="text" className="first-name" name="firstName" placeholder="First name"

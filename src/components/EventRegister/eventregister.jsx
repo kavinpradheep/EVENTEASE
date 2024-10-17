@@ -29,8 +29,16 @@ const Eventregister = () => {
     webinarLink: '', // Webinar link
     registrationOpen: '',
     registrationClose: '',
+<<<<<<< HEAD
     description: '', // Short description
     detailedInfo: '', // Detailed information about the event
+=======
+    publisherName: '',
+    publisherContact: '',
+    staffInCharge: '',
+    staffContact: '',
+    otpEventName: '',
+>>>>>>> 7a22d3db5875e1d9ea6c4c4e033f031344ce6349
   });
 
   const [eventPoster, setEventPoster] = useState(null);
@@ -42,7 +50,7 @@ const Eventregister = () => {
   const handleImageChange = (e) => {
     setEventPoster(e.target.files[0]);
   };
-
+  
   const handleEventCountChange = (count) => {
     setEventCount(count);
     const newEvents = Array.from({ length: count }, (_, index) => ({
@@ -76,7 +84,11 @@ const Eventregister = () => {
     e.preventDefault();
     const formData = new FormData();
 
+<<<<<<< HEAD
     // Append event data to FormData
+=======
+    // Append all required fields including the new ones
+>>>>>>> 7a22d3db5875e1d9ea6c4c4e033f031344ce6349
     formData.append('collegeName', eventData.collegeName);
     formData.append('eventName', eventData.eventName); // Append main event name
     formData.append('eventDate', eventData.eventDate);
@@ -84,8 +96,16 @@ const Eventregister = () => {
     formData.append('webinarLink', eventData.webinarLink); // Append webinar link
     formData.append('registrationOpen', eventData.registrationOpen);
     formData.append('registrationClose', eventData.registrationClose);
+<<<<<<< HEAD
     formData.append('description', eventData.description); // Append description
     formData.append('detailedInfo', eventData.detailedInfo); // Append detailed information
+=======
+    formData.append('publisherName', eventData.publisherName);
+    formData.append('publisherContact', eventData.publisherContact);
+    formData.append('staffInCharge', eventData.staffInCharge);
+    formData.append('staffContact', eventData.staffContact);
+    formData.append('otpEventName', eventData.otpEventName);
+>>>>>>> 7a22d3db5875e1d9ea6c4c4e033f031344ce6349
 
     // Handle event poster file upload
     if (eventPoster) {
@@ -144,6 +164,7 @@ const Eventregister = () => {
             <p>Corrections can't be made after publishing</p>
           </div>
           <form onSubmit={handleSubmit} encType="multipart/form-data">
+            {/* Existing form fields for left side */}
             <p>College Name</p>
             <input type="text" name="collegeName" value={eventData.collegeName} onChange={handleChange}
               className="register-eventname" placeholder="College Name" required />
@@ -256,8 +277,91 @@ const Eventregister = () => {
             <button type="submit" className="register-publish-button">Publish</button>
           </form>
         </div>
+       {/* right-container*/}
         <div className="register-container-right">
+<<<<<<< HEAD
 
+=======
+          <h1>Event details</h1>
+          <form>
+          <p> Event Name</p>
+            <input
+              type="text"
+              name="EventName"
+              value={eventData.EventName}
+              onChange={handleChange}
+              placeholder="Event Name"
+              className='register-details'
+              required
+            />
+
+            <p>Publisher Name</p>
+            <input
+              type="text"
+              name="publisherName"
+              value={eventData.publisherName}
+              onChange={handleChange}
+              placeholder="Publisher Name"
+              className='register-details'
+              required
+            />
+
+            <p>Publisher Contact Info</p>
+            <input
+              type="tel"
+              name="publisherContact"
+              value={eventData.publisherContact}
+              onChange={handleChange}
+              placeholder="Publisher Contact"
+              className='register-details'
+              required
+            />
+
+            <p>Staff In Charge Name</p>
+            <input
+              type="text"
+              name="staffInCharge"
+              value={eventData.staffInCharge}
+              onChange={handleChange}
+              placeholder="Staff In Charge"
+              className='register-details'
+              required
+            />
+
+            <p>Staff In Charge Contact Info</p>
+            <input
+              type="tel"
+              name="staffContact"
+              value={eventData.staffContact}
+              onChange={handleChange}
+              placeholder="Staff Contact"
+              className='register-details'
+              required
+            />
+
+            <p className='OTP'>Email OTP</p>
+            <input
+              type="text"
+              name="otpEventName"
+              value={eventData.otpEventName}
+              onChange={handleChange}
+              placeholder="OTP "
+              className='register-details'
+              required
+            />
+
+           <p className='OTP'>Mobile OTP</p>
+            <input
+              type="text"
+              name="otpEventName"
+              value={eventData.otpEventName}
+              onChange={handleChange}
+              placeholder="OTP "
+              className='register-details'
+              required
+            />
+          </form>
+>>>>>>> 7a22d3db5875e1d9ea6c4c4e033f031344ce6349
         </div>
       </div>
     </div>

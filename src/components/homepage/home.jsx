@@ -1,6 +1,7 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import './home.css'
+import Contact from '../Contact us/contact';
 const Mainpage = () => {
     const navigate = useNavigate();
     const eventsclick = () =>{
@@ -9,7 +10,13 @@ const Mainpage = () => {
     const hallclick = () =>{
         navigate('/Hallpage')
     }
-    
+    const aboutusclick = () =>{
+        navigate('/aboutUs')
+    }
+    const contactclick = () =>{
+        navigate('/Contact us')
+    }
+
   return (
     <div className="main">
         <div className="main-holder">
@@ -28,7 +35,7 @@ const Mainpage = () => {
                     <div className="about">
                         About Us
                     </div>
-                    <div className="contact">
+                    <div className="contact" onClick={contactclick}>
                         Contact Us
                     </div>
                 </div>
