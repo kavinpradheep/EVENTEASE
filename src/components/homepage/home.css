@@ -131,3 +131,10 @@
 .subscribe-button:hover {
     background-color: rgb(30, 78, 204);
 }
+
+/* Loading indicator style */
+.loading-indicator {
+    margin-left: 10px;
+    font-size: 14px;
+    color: #555;
+}

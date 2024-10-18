@@ -5,6 +5,7 @@ import './home.css';
 const Mainpage = () => {
     const navigate = useNavigate();
     const [email, setEmail] = useState("");
+    const [loading, setLoading] = useState(false); // Loading state
 
     const handleEventClick = () => {
         navigate('/Events');
@@ -15,6 +16,8 @@ const Mainpage = () => {
             alert("Please enter an email address");
             return;
         }
+
+        setLoading(true); // Start loading
 
         try {
             const response = await fetch('http://localhost:5000/api/subscribe', {
@@ -34,6 +37,8 @@ const Mainpage = () => {
         } catch (error) {
             console.error(error);
             alert("Server error, please try again later.");
+        } finally {
+            setLoading(false); // Stop loading after email processing
         }
     };
 
@@ -81,11 +86,11 @@ const Mainpage = () => {
                         placeholder="Enter your email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                        onKeyPress={handleKeyPress} // Add the onKeyPress event handler here
+                        onKeyPress={handleKeyPress}
                         className="email-input"
                     />
-                    <button onClick={handleSubscribe} className="subscribe-button">
-                        Subscribe
+                    <button onClick={handleSubscribe} className="subscribe-button" disabled={loading}>
+                        {loading ? 'Processing...' : 'Subscribe'} {/* Show loading text */}
                     </button>
                 </div>
             </div>
