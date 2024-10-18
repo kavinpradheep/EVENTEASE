@@ -4,6 +4,18 @@ import './eventregister.css';
 
 const Eventregister = () => {
   const navigate = useNavigate();
+  const homeclick = () =>{
+    navigate('/')
+  }
+  const eventsclick = () =>{
+    navigate('/Eventspage')
+  }
+  const loginclick = () =>{
+    navigate('/login-signup-page')
+  }
+  const hallclick = () =>{
+    navigate('/Hallpage')
+  }
   const [eventCount, setEventCount] = useState(1); // State to hold the number of sub-events
   const [events, setEvents] = useState([{ eventName: '' }]); // State to hold sub-event details
   const [contactCount, setContactCount] = useState(1); // State to hold the number of contacts
@@ -30,7 +42,7 @@ const Eventregister = () => {
   const handleImageChange = (e) => {
     setEventPoster(e.target.files[0]);
   };
-
+  
   const handleEventCountChange = (count) => {
     setEventCount(count);
     const newEvents = Array.from({ length: count }, (_, index) => ({
@@ -96,7 +108,7 @@ const Eventregister = () => {
       const result = await response.json();
       if (response.status === 201) {
         alert('Event registered successfully');
-        navigate('/Events');
+        navigate('/Eventspage');
       } else {
         alert(result.error || "Error registering event");
       }
@@ -111,14 +123,14 @@ const Eventregister = () => {
       <div className="header">
         <div className="left-section">EventEase</div>
         <div className="middle-section">
-          <div className="event-nav-home" onClick={() => navigate('/Mainpage')}>Home</div>
-          <div className="event-nav-events" onClick={() => navigate('/Events')}>Events</div>
-          <div className="event-nav-hall">Hall</div>
+          <div className="event-nav-home" onClick={homeclick}>Home</div>
+          <div className="event-nav-events" onClick={eventsclick}>Events</div>
+          <div className="event-nav-hall" onClick={hallclick}>Hall</div>
           <div className="about">About Us</div>
           <div className="contact">Contact Us</div>
         </div>
         <div className="right-section">
-          <div className="login" onClick={() => navigate('/')}>Login / Sign Up</div>
+          <div className="login" onClick={loginclick}>Login / Sign Up</div>
         </div>
       </div>
       
@@ -132,6 +144,7 @@ const Eventregister = () => {
             <p>Corrections can't be made after publishing</p>
           </div>
           <form onSubmit={handleSubmit} encType="multipart/form-data">
+            {/* Existing form fields for left side */}
             <p>College Name</p>
             <input type="text" name="collegeName" value={eventData.collegeName} onChange={handleChange}
               className="register-eventname" placeholder="College Name" required />
@@ -244,8 +257,8 @@ const Eventregister = () => {
             <button type="submit" className="register-publish-button">Publish</button>
           </form>
         </div>
+       {/* right-container*/}
         <div className="register-container-right">
-
         </div>
       </div>
     </div>

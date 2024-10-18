@@ -64,6 +64,7 @@
 .page-container-left {
     display: flex;
     flex-direction: column;
+    justify-content: center;
     gap: 20px;
 }
 
@@ -85,9 +86,7 @@
     color: rgb(3, 3, 3);
     font-weight: 300;
 }
-
-.page-container-right {
-    background-color: aliceblue;
+.page-container-right{
 }
 
 .footer {

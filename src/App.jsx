@@ -9,20 +9,26 @@ import Mainpage from './components/homepage/home';
 import Hall from './components/hall/hall';
 import Eventregister from './components/EventRegister/eventregister';
 import Event from './components/event/event';
+import About from './components/aboutUs/About';
+import Contact from './components/Contact us/contact';
 
+<comp></comp>
 const App = () => {
   return (
     <Router>
       <Routes>
 
-        <Route path='/' element={<Login />} />
+        <Route path='/Login-signup-page' element={<Login />} />
         <Route path='/Adminlogin' element={<AdminLogin />} />
         <Route path='/Adminhall' element={<Adminhall/>} />
-        <Route path='/Mainpage' element={<Mainpage />} />
-        <Route path='/Events' element={<Events />} />
-        <Route path='/Hall' element={<Hall/>} />
-        <Route path='/EventRegister' element={<Eventregister />} />
+        <Route path='/' element={<Mainpage />} />
+        <Route path='/Eventspage' element={<Events />} />
+        <Route path='/Hallpage' element={<Hall/>} />
+        <Route path='/EventRegisterpage' element={<Eventregister />} />
         <Route path='/event/:id' element={<Event />} /> {/* Updated to dynamic route */}
+        <Route path='/aboutUs' element={<About/ >}/>
+        <Route path='/Contact us' element={<Contact/ >} />
+        
       </Routes>
     </Router>
   );

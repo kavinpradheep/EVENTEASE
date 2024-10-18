@@ -7,18 +7,18 @@ const Events = () => {
     const navigate = useNavigate();
 
     const homeclick = () => {
-        navigate('/Mainpage');
-    };
-
-    const loginclick = () => {
         navigate('/');
     };
 
+    const loginclick = () => {
+        navigate('/Login-signup-page');
+    };
+
     const eventregisterclick = () => {
-        navigate('/EventRegister');
+        navigate('/EventRegisterpage');
     };
     const hallclick = () => {
-        navigate('/Hall')
+        navigate('/Hallpage')
     }
     // Update view more click to navigate with event ID
     const viewmoreclick = (eventId) => {

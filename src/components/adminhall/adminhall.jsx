@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import Calendar from 'react-calendar'; // Import React Calendar
-import './Adminhall.css'; // Ensure you have a CSS file for styling
+import Calendar from 'react-calendar';
+import './Adminhall.css';
 
 const Adminhall = () => {
     const [activeHall, setActiveHall] = useState(null);
     const [selectedDate, setSelectedDate] = useState(new Date());
-    const [confirmedDates, setConfirmedDates] = useState({}); // Object to store confirmed dates for each hall
-    const [confirmPopupVisible, setConfirmPopupVisible] = useState(false); // State to show confirm popup
-    const [unlockPopupVisible, setUnlockPopupVisible] = useState(false); // State to show unlock popup
+    const [lockedDates, setLockedDates] = useState({}); // Store locked dates for each hall
+    const [confirmPopupVisible, setConfirmPopupVisible] = useState(false);
+    const [unlockPopupVisible, setUnlockPopupVisible] = useState(false);
 
     const halls = [
         { name: "Hall One", department: "Computer Science" },
@@ -21,15 +21,34 @@ const Adminhall = () => {
         "Hall One": { seating: "200 seats", stageSize: "Medium Stage", projector: "Available" },
         "Hall Two": { seating: "150 seats", stageSize: "Small Stage", projector: "Not Available" },
         "Hall Three": { seating: "300 seats", stageSize: "Large Stage", projector: "Available" },
-        // Add details for other halls
+        "Hall Four": { seating: "250 seats", stageSize: "Medium Stage", projector: "Available" },
+        "Hall Five": { seating: "100 seats", stageSize: "Small Stage", projector: "Not Available" },
     };
 
     useEffect(() => {
-        // Load the locked dates from local storage when the component mounts
-        const storedDates = JSON.parse(localStorage.getItem('eventDates'));
-        if (storedDates) {
-            setConfirmedDates(storedDates);
-        }
+        // Load locked dates from the API when the component mounts
+        const fetchLockedDates = async () => {
+            try {
+                const response = await fetch('http://localhost:5000/api/lockeddates'); // Adjust the endpoint as necessary
+                if (!response.ok) throw new Error('Network response was not ok');
+                const data = await response.json();
+                const datesByHall = {};
+                
+                data.forEach(item => {
+                    const { hallName, date } = item;
+                    if (!datesByHall[hallName]) {
+                        datesByHall[hallName] = [];
+                    }
+                    datesByHall[hallName].push(new Date(date));
+                });
+                
+                setLockedDates(datesByHall);
+            } catch (error) {
+                console.error('Error fetching locked dates:', error);
+            }
+        };
+
+        fetchLockedDates();
     }, []);
 
     const handleRowClick = (hallName) => {
@@ -39,39 +58,71 @@ const Adminhall = () => {
     const handleDateChange = (date) => {
         setSelectedDate(date);
 
-        // Check if the date is already confirmed for the active hall
-        if (confirmedDates[activeHall] && confirmedDates[activeHall].some(confirmedDate => confirmedDate.toDateString() === date.toDateString())) {
-            setUnlockPopupVisible(true); // Show unlock confirmation popup
+        // Check if the date is already locked for the active hall
+        if (lockedDates[activeHall] && lockedDates[activeHall].some(lockedDate => new Date(lockedDate).toDateString() === date.toDateString())) {
+            setUnlockPopupVisible(true);
         } else {
-            setConfirmPopupVisible(true); // Show lock confirmation popup
+            setConfirmPopupVisible(true);
         }
     };
 
-    const handleConfirmLock = () => {
-        if (!confirmedDates[activeHall]) {
-            confirmedDates[activeHall] = []; // Initialize the array if it doesn't exist
-        }
+    const handleConfirmLock = async () => {
+        try {
+            // Lock the date on the backend
+            const response = await fetch('http://localhost:5000/api/lockeddates', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    hallName: activeHall,
+                    date: selectedDate.toISOString(), // Store date in ISO format
+                }),
+            });
 
-        // Add the confirmed date
-        confirmedDates[activeHall].push(selectedDate);
-        setConfirmedDates({ ...confirmedDates }); // Update the state
-        localStorage.setItem('eventDates', JSON.stringify(confirmedDates)); // Store updated dates in local storage
-        setConfirmPopupVisible(false); // Hide the confirmation popup
+            if (!response.ok) throw new Error('Failed to lock the date');
+
+            // Update local state with the newly locked date
+            const updatedLockedDates = { ...lockedDates };
+            if (!updatedLockedDates[activeHall]) {
+                updatedLockedDates[activeHall] = [];
+            }
+
+            updatedLockedDates[activeHall].push(selectedDate);
+            setLockedDates(updatedLockedDates);
+            setConfirmPopupVisible(false);
+        } catch (error) {
+            console.error('Error locking date:', error);
+        }
     };
 
-    const handleConfirmUnlock = () => {
-        if (confirmedDates[activeHall]) {
-            // Remove the confirmed date
-            confirmedDates[activeHall] = confirmedDates[activeHall].filter(confirmedDate => confirmedDate.toDateString() !== selectedDate.toDateString());
-            setConfirmedDates({ ...confirmedDates }); // Update the state
-            localStorage.setItem('eventDates', JSON.stringify(confirmedDates)); // Update local storage
+    const handleConfirmUnlock = async () => {
+        try {
+            // Unlock the date on the backend
+            const response = await fetch('http://localhost:5000/api/unlockEventDate', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    hallName: activeHall,
+                    date: selectedDate.toISOString(), // Store date in ISO format
+                }),
+            });
+
+            if (!response.ok) throw new Error('Failed to unlock the date');
+
+            // Update local state to remove the unlocked date
+            const updatedLockedDates = { ...lockedDates };
+            if (updatedLockedDates[activeHall]) {
+                updatedLockedDates[activeHall] = updatedLockedDates[activeHall].filter(lockedDate => new Date(lockedDate).toDateString() !== selectedDate.toDateString());
+                setLockedDates(updatedLockedDates);
+            }
+            setUnlockPopupVisible(false);
+        } catch (error) {
+            console.error('Error unlocking date:', error);
         }
-        setUnlockPopupVisible(false); // Hide the unlock confirmation popup
     };
 
     const handleCancel = () => {
-        setConfirmPopupVisible(false); // Hide the lock confirmation popup
-        setUnlockPopupVisible(false); // Hide the unlock confirmation popup
+        setConfirmPopupVisible(false);
+        setUnlockPopupVisible(false);
     };
 
     return (
@@ -118,9 +169,8 @@ const Adminhall = () => {
                                                     <Calendar
                                                         onChange={handleDateChange}
                                                         value={selectedDate}
-                                                        tileClassName={({ date, view }) => {
-                                                            // Change the background color of confirmed dates for the active hall
-                                                            return confirmedDates[hall.name] && confirmedDates[hall.name].some(confirmedDate => confirmedDate.toDateString() === date.toDateString()) ? 'highlight' : '';
+                                                        tileClassName={({ date }) => {
+                                                            return lockedDates[hall.name] && lockedDates[hall.name].some(lockedDate => new Date(lockedDate).toDateString() === date.toDateString()) ? 'highlight' : '';
                                                         }}
                                                     />
                                                 </div>
@@ -134,7 +184,6 @@ const Adminhall = () => {
                 </table>
             </div>
 
-            {/* Confirmation Popup for Locking Date */}
             {confirmPopupVisible && (
                 <div className="confirmation-popup">
                     <p>Are you sure you want to lock the date {selectedDate.toDateString()} for {activeHall}?</p>
@@ -143,7 +192,6 @@ const Adminhall = () => {
                 </div>
             )}
 
-            {/* Confirmation Popup for Unlocking Date */}
             {unlockPopupVisible && (
                 <div className="confirmation-popup">
                     <p>Are you sure you want to unlock the date {selectedDate.toDateString()} for {activeHall}?</p>

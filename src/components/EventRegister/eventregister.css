@@ -1,6 +1,8 @@
-.main{
+.main {
     background-color: rgb(237, 237, 237);
-}.register-container{
+  }
+  
+  .register-container {
     margin-top: 50px;
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -9,115 +11,159 @@
     background-color: rgb(237, 237, 237);
     border-radius: 20px;
     padding: 30px;
-}
-.register-container-left{
+  }
+  
+  .register-container-left {
     margin: 0;
     padding: 0;
-}
-.register-container-left h1{
-    font-family: 'poppins';
+  }
+  
+  .register-container-left h1 {
+    font-family: 'Poppins', sans-serif;
     font-weight: 500;
     color: rgb(3, 3, 3);
-}
-.register-container-left h4{
-    color: rgb(3, 3, 3);
-    font-family: 'inner';
-    font-weight: 200;
-    margin-top: 20px;
-}
-.rcl-h41{
+  }
+  
+  .rcl-h41 {
     margin-top: 20px;
     margin-bottom: 10px;
-}
-.rcl-h41 hr{
+  }
+  
+  .rcl-h41 hr {
     width: 40%;
-}
-.register-container-left p{
-    font-family: 'poppins';
+  }
+  
+  .register-container-left p {
+    font-family: 'Poppins', sans-serif;
     font-weight: 300;
     color: rgb(3, 3, 3);
     margin-top: 20px;
     margin-bottom: 7px;
     margin-left: 10px;
     font-size: 13px;
-
-}
-.register-eventname{
+  }
+  
+  .register-eventname {
     height: 55px;
     border: none;
     border-radius: 10px;
     width: 70%;
-}
-.register-poster::-webkit-file-upload-button{
+    padding-left: 10px;
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+  }
+  
+  .register-poster::-webkit-file-upload-button {
     height: 55px;
     border: none;
     border-radius: 10px;
     background-color: white;
     width: 50%;
     margin-right: 20px;
-}
-.register-eventname::placeholder{
-    color: black;
-    padding-left: 10px;
-    font-family: 'inter';
-}
-.register-event-gformdetails{
+  }
+  
+  .register-event-gformdetails {
     display: flex;
     gap: 5px;
-}
-.register-gformdetails-date{
+  }
+  
+  .register-gformdetails-date {
     border: none;
     margin-top: 5px;
     margin-left: 14px;
     height: 30px;
     border-radius: 5px;
-}
-.register-event-description{
+    padding-left: 10px;
+    font-family: 'Inter', sans-serif;
+  }
+  
+  .register-event-description {
     height: 200px;
     width: 70%;
     border-radius: 10px;
     border: none;
     padding: 10px;
     font-size: 16px;
-}
-.register-about-event{
+  }
+  
+  .register-about-event {
     height: 300px;
     width: 70%;
     border-radius: 10px;
     border: none;
     padding: 10px;
     font-size: 16px;
-}
-.register-event-count, .register-contact-count{
+  }
+  
+  .register-event-count,
+  .register-contact-count {
     margin-top: 15px;
     font-size: 14px;
     margin-bottom: 10px;
-    font-family: 'inter';
-}
-.register-contactname, .register-contactnumber{
+    font-family: 'Inter', sans-serif;
+  }
+  
+  .register-contactname,
+  .register-contactnumber {
     height: 45px;
     margin-right: 20px;
     width: 225px;
     border: none;
     border-radius: 10px;
-}
-.register-contactname::placeholder,
- .register-contactnumber::placeholder{
-    font-size: 15px;
     padding-left: 10px;
+    font-family: 'Inter', sans-serif;
+  }
+  
+  .register-container-right {
+    background-color: rgb(234, 175, 239);
+    padding: 10px;
+    border-radius: 20px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    color: rgb(86, 85, 85);
+    margin-top: 20px;
+    margin-bottom: 7px;
+    margin-left: 10px;
+    font-size: 13px;
+    text-align: center;
+ }
+ .register-details {
+  height: 55px;
+  border: none;
+  border-radius: 25px;
+  width: 70%;
+  padding-left: 10px;
+  font-family: 'Inter', sans-serif;
+  font-size: 15px;
+  margin: 10px;
+  text-align: center;
+  
 }
+<<<<<<< HEAD
 .register-container-right{
     background-color: aquamarine;
 }
 .register-publish-button{
+=======
+
+
+  .submit-button {
+>>>>>>> 7a22d3db5875e1d9ea6c4c4e033f031344ce6349
     display: block;
     height: 35px;
     width: 100px;
     border: none;
-    background-color:blue;
+    background-color: blue;
     color: white;
     margin-top: 25px;
     margin-left:175px;
     padding: 10px;
-    border-radius: 10px;
-}
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: 'Poppins', sans-serif;
+  }
+  
+  .submit-button:hover {
+    background-color: darkblue;
+  }
+  
