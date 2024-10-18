@@ -6,11 +6,11 @@ import multer from 'multer';
 import path from 'path';
 import jwt from 'jsonwebtoken';
 import fs from 'fs';
-import dotenv from 'dotenv';
+import nodemailer from 'nodemailer'; // Import nodemailer
 import { body, validationResult } from 'express-validator';
 
 // Initialize dotenv for environment variables
-dotenv.config();
+// dotenv.config();
 
 // Initialize Express app
 const app = express();
@@ -36,7 +36,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 // MongoDB connection
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/eventEaseDB', {
+mongoose.connect('mongodb://localhost:27017/eventEaseDB', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
@@ -47,6 +47,42 @@ mongoose.connection.once('open', () => {
 
 mongoose.connection.on('error', (err) => {
   console.error('MongoDB connection error:', err);
+});
+
+// Email transporter configuration
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: 'kavinpradheep2005@gmail.com', // Your Gmail address
+    pass: 'qkvk qhym drns htud', // Your Gmail password or App password
+  },
+});
+
+// Subscription API route
+app.post('/api/subscribe', async (req, res) => {
+  const { email } = req.body;
+
+  if (!email) {
+    return res.status(400).json({ error: 'Email is required' });
+  }
+
+  try {
+    // Define the email content
+    const mailOptions = {
+      from: '"EventEase" <kavinpradheep2005@gmail.com>',
+      to: email,
+      subject: 'Welcome to EventEase!',
+      text: 'Thank you for subscribing to EventEase! Stay tuned for upcoming events and updates.',
+    };
+
+    // Send email
+    await transporter.sendMail(mailOptions);
+
+    res.status(200).json({ message: 'Subscription successful! Email sent.' });
+  } catch (error) {
+    console.error('Error sending email:', error);
+    res.status(500).json({ error: 'Failed to send email.' });
+  }
 });
 
 // Admin schema
@@ -73,7 +109,7 @@ app.post('/api/login', async (req, res) => {
     }
 
     // Generate JWT Token
-    const token = jwt.sign({ id: admin._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    const token = jwt.sign({ id: admin._id }, 'your_jwt_secret', { expiresIn: '1h' });
     res.status(200).json({ message: 'Login successful', token });
   } catch (err) {
     console.error(err);
@@ -266,21 +302,7 @@ app.post('/api/lockeddates', async (req, res) => {
   }
 });
 
-// Unlock event dates route
-app.post('/api/unlockEventDate', async (req, res) => {
-  const { hallName, date } = req.body;
-
-  try {
-    // Remove the locked date
-    await LockedDate.deleteOne({ hallName, date: new Date(date) });
-    res.status(200).json({ message: 'Date unlocked successfully' });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: 'Server error' });
-  }
-});
-
 // Start the server
 app.listen(5000, () => {
-  console.log('Server is running on port 5000');
+  console.log('Server running on port 5000');
 });
