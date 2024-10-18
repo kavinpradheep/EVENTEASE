@@ -57,6 +57,7 @@
 .page-container-left{
     display: flex;
     flex-direction: column;
+    justify-content: center;
     gap: 20px;
 }
 .page-container-left p{
@@ -76,7 +77,6 @@
     font-weight: 300;
 }
 .page-container-right{
-    background-color: aliceblue;
 }
 .fotter{
     margin-bottom: 15px;

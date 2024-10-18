@@ -1,7 +1,8 @@
-import React from 'react'
+import React,{useState} from 'react'
 import { useNavigate } from 'react-router-dom'
+import homelogo from '../../../backend/eventease2.png'
 import './home.css'
-import Contact from '../Contact us/contact';
+import colleges from '../../../backend/colleges'
 const Mainpage = () => {
     const navigate = useNavigate();
     const eventsclick = () =>{
@@ -16,7 +17,22 @@ const Mainpage = () => {
     const contactclick = () =>{
         navigate('/Contact us')
     }
+    const [selectedCollege, setSelectedCollege] = useState(''); // State to store the selected college
 
+    // Handle change event when a college is selected
+    const handleCollegeChange = (event) => {
+        setSelectedCollege(event.target.value);
+    };
+
+    // Handle form submission
+    const handleSubmit = (event) => {
+        event.preventDefault(); // Prevent the default form submission behavior
+        if (selectedCollege) {
+            alert(`You selected: ${selectedCollege}`);
+        } else {
+            alert('Please select a college.');
+        }
+    };
   return (
     <div className="main">
         <div className="main-holder">
@@ -53,8 +69,22 @@ const Mainpage = () => {
                         and never miss a moment!"</h4>
                 </div>
                 <div className="page-container-right">
-
+                    <img  src ={homelogo} alt="" />
                 </div>
+            </div>
+            <div className="home-to-event-clg-name">
+                <form onSubmit={handleSubmit}>
+                    <label class="selectcollege">College:</label>
+                    <select id="college" value={selectedCollege} onChange={handleCollegeChange}>
+                        <option value="">-- Select a College --</option>
+                        {colleges.map((college, index) => (
+                            <option key={index} value={college}>
+                                {college}
+                            </option>
+                        ))}
+                    </select>
+                    <button type="submit">Submit</button>
+                </form>
             </div>
             <div className="fotter">
                 <h4>Make informed choices! Review all event 
