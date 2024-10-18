@@ -5,6 +5,9 @@ import './home.css'
 import colleges from '../../../backend/colleges'
 const Mainpage = () => {
     const navigate = useNavigate();
+    const [email, setEmail] = useState("");
+    const [loading, setLoading] = useState(false);
+
     const eventsclick = () =>{
         navigate('/Eventspage')
     }
@@ -33,6 +36,43 @@ const Mainpage = () => {
             alert('Please select a college.');
         }
     };
+    const handleSubscribe = async () => {
+        if (!email) {
+            alert("Please enter an email address");
+            return;
+        }
+
+        setLoading(true); // Start loading
+
+        try {
+            const response = await fetch('http://localhost:5000/api/subscribe', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email }),
+            });
+
+            const data = await response.json();
+            if (response.ok) {
+                alert(data.message);
+            } else {
+                alert(data.error || "Failed to subscribe");
+            }
+        } catch (error) {
+            console.error(error);
+            alert("Server error, please try again later.");
+        } finally {
+            setLoading(false); // Stop loading after email processing
+        }
+    };
+
+    const handleKeyPress = (event) => {
+        if (event.key === 'Enter') {
+            handleSubscribe();
+        }
+    };
+
   return (
     <div className="main">
         <div className="main-holder">
@@ -74,7 +114,7 @@ const Mainpage = () => {
             </div>
             <div className="home-to-event-clg-name">
                 <form onSubmit={handleSubmit}>
-                    <label class="selectcollege">College:</label>
+                    <label className="selectcollege">College:</label>
                     <select id="college" value={selectedCollege} onChange={handleCollegeChange}>
                         <option value="">-- Select a College --</option>
                         {colleges.map((college, index) => (
@@ -90,8 +130,23 @@ const Mainpage = () => {
                 <h4>Make informed choices! Review all event 
                     details carefully before registering. 
                     Registration is completely optional
-                    —it's your call!</h4>
+                    —it's your call!
+                </h4>
+                <div className="subscription">
+                    <input
+                        type="email"
+                        placeholder="Enter your email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        onKeyPress={handleKeyPress}
+                        className="email-input"
+                    />
+                    <button onClick={handleSubscribe} className="subscribe-button" disabled={loading}>
+                        {loading ? 'Processing...' : 'Subscribe'} {/* Show loading text */}
+                    </button>
             </div>
+            </div>
+            
         </div>
     </div>
     );
