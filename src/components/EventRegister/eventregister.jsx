@@ -42,7 +42,7 @@ const Eventregister = () => {
   const handleImageChange = (e) => {
     setEventPoster(e.target.files[0]);
   };
-
+  
   const handleEventCountChange = (count) => {
     setEventCount(count);
     const newEvents = Array.from({ length: count }, (_, index) => ({
@@ -144,6 +144,7 @@ const Eventregister = () => {
             <p>Corrections can't be made after publishing</p>
           </div>
           <form onSubmit={handleSubmit} encType="multipart/form-data">
+            {/* Existing form fields for left side */}
             <p>College Name</p>
             <input type="text" name="collegeName" value={eventData.collegeName} onChange={handleChange}
               className="register-eventname" placeholder="College Name" required />
@@ -256,8 +257,8 @@ const Eventregister = () => {
             <button type="submit" className="register-publish-button">Publish</button>
           </form>
         </div>
+       {/* right-container*/}
         <div className="register-container-right">
-
         </div>
       </div>
     </div>

@@ -77,10 +77,11 @@ const Event = () => {
                 <div className="event-detail-about-event-title">
                     About Event
                 </div>
-
+                
                 <div className="event-detail-aboutevent">
                     {eventData.detailedInfo} 
                 </div>
+
                 <p className='event-detail-typeofevent-title'>Events</p>
                 <div className="event-detail-typeofevent">
                     {eventData.events && eventData.events.map((eventItem, index) => (

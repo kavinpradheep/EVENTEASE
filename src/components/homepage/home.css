@@ -1,4 +1,4 @@
-.main-holder{
+.main-holder {
     background-color: #ededed;
     padding: 20px;
     border-radius: 15px;
@@ -7,7 +7,8 @@
     flex-direction: column;
     gap: 40px;
 }
-.header{
+
+.header {
     position: fixed;
     top: 0;
     left: 0;
@@ -18,72 +19,115 @@
     display: grid;
     grid-template-columns: 1fr 2fr 1fr;
 }
-.left-section{
-    font-family: 'poppins';
+
+.left-section {
+    font-family: 'Poppins', sans-serif;
     font-weight: 500;
     color: #030303;
     font-size: 35px;
 }
-.middle-section{
-    font-family: 'inter';
+
+.middle-section {
+    font-family: 'Inter', sans-serif;
     font-weight: 600;
     display: flex;
     align-items: center;
     gap: 20px;
     color: #333333;
 }
-.home, .events, .about, .contact, .hall{
+
+.home, .events, .about, .contact, .hall {
     cursor: pointer;
     transition: 0.2s;
 }
-.home{
+
+.home {
     color: rgb(49, 100, 244);
 }
-.home:hover, .events:hover, 
-.about:hover, .contact:hover,
-.hall:hover{
+
+.home:hover, .events:hover, .about:hover, .contact:hover, .hall:hover {
     color: rgb(49, 100, 244);
     transform: scale(1.1);
 }
-.right-section{
+
+.right-section {
     margin: 0;
     justify-self: end;
 }
-.page-container{
+
+.page-container {
     margin: auto 100px;
     display: grid;
     grid-template-columns: 1fr 1fr;
 }
-.page-container-left{
+
+.page-container-left {
     display: flex;
     flex-direction: column;
     gap: 20px;
 }
-.page-container-left p{
+
+.page-container-left p {
     color: rgb(127, 127, 127);
-    font-family: 'inter';
+    font-family: 'Inter', sans-serif;
 }
-.page-container-left h1{
+
+.page-container-left h1 {
     color: rgb(3, 3, 3);
     max-width: 70%;
     font-weight: 600;
     font-size: 50px;
-    font-family: 'poppins';
+    font-family: 'Poppins', sans-serif;
     line-height: 55px;
 }
-.page-container-left h4{
+
+.page-container-left h4 {
     color: rgb(3, 3, 3);
     font-weight: 300;
 }
-.page-container-right{
+
+.page-container-right {
     background-color: aliceblue;
 }
-.fotter{
+
+.footer {
     margin-bottom: 15px;
-}
-.fotter h4{
-    color: rgb(38, 38, 38);
-    font-family: 'inter';
+    align-items: center;
+    justify-content: center;
     text-align: center;
-    
+}
+
+.footer h4 {
+    color: rgb(38, 38, 38);
+    font-family: 'Inter', sans-serif;
+}
+
+/* Subscription styles */
+.subscription {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.email-input {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.subscribe-button {
+    padding: 10px 20px;
+    background-color: rgb(49, 100, 244);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.subscribe-button:hover {
+    background-color: rgb(30, 78, 204);
 }

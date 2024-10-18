@@ -9,7 +9,10 @@ import Mainpage from './components/homepage/home';
 import Hall from './components/hall/hall';
 import Eventregister from './components/EventRegister/eventregister';
 import Event from './components/event/event';
+import About from './components/aboutUs/About';
+import Contact from './components/Contact us/contact';
 
+<comp></comp>
 const App = () => {
   return (
     <Router>
@@ -23,6 +26,9 @@ const App = () => {
         <Route path='/Hallpage' element={<Hall/>} />
         <Route path='/EventRegisterpage' element={<Eventregister />} />
         <Route path='/event/:id' element={<Event />} /> {/* Updated to dynamic route */}
+        <Route path='/aboutUs' element={<About/ >}/>
+        <Route path='/Contact us' element={<Contact/ >} />
+        
       </Routes>
     </Router>
   );
