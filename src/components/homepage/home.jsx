@@ -8,6 +8,7 @@ import axios from 'axios'; // Import axios for making HTTP requests
 const Mainpage = () => {
     const navigate = useNavigate();
     const [email, setEmail] = useState("");
+    const [name, setName] = useState(""); // New input state for name
     const [loading, setLoading] = useState(false);
     const [selectedCollege, setSelectedCollege] = useState('');
     const [message, setMessage] = useState(''); // State for messages
