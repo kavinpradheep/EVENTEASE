@@ -296,21 +296,33 @@ app.post('/api/lockeddates', async (req, res) => {
   const { hallName, date } = req.body;
 
   try {
-    // Check if the date is already locked
-    const alreadyLocked = await LockedDate.findOne({ hallName, date: new Date(date) });
-    if (alreadyLocked) {
-      return res.status(400).json({ message: 'Date already locked for this hall' });
-    }
-
-    // Lock the date
-    const lockedDate = new LockedDate({ hallName, date: new Date(date) });
-    await lockedDate.save();
-    res.status(200).json({ message: 'Date locked successfully' });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: 'Server error' });
+      const alreadyLocked = await LockedDate.findOne({ hallName, date });
+      if (alreadyLocked) {
+          return res.status(400).json({ message: 'Date is already locked.' });
+      }
+      const lockedDate = new LockedDate({ hallName, date });
+      await lockedDate.save();
+      res.status(201).json({ message: 'Date locked successfully.' });
+  } catch (error) {
+      res.status(500).json({ message: 'Error locking date.', error });
   }
 });
+
+// Unlock event dates route
+app.delete('/api/lockeddates', async (req, res) => {
+  const { hallName, date } = req.body;
+
+  try {
+      const result = await LockedDate.deleteOne({ hallName, date });
+      if (result.deletedCount === 0) {
+          return res.status(404).json({ message: 'Date not found.' });
+      }
+      res.status(200).json({ message: 'Date unlocked successfully.' });
+  } catch (error) {
+      res.status(500).json({ message: 'Error unlocking date.', error });
+  }
+});
+
 
 // Start the server
 app.listen(5000, () => {

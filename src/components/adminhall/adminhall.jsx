@@ -5,7 +5,7 @@ import './Adminhall.css';
 const Adminhall = () => {
     const [activeHall, setActiveHall] = useState(null);
     const [selectedDate, setSelectedDate] = useState(new Date());
-    const [lockedDates, setLockedDates] = useState({}); // Store locked dates for each hall
+    const [lockedDates, setLockedDates] = useState({});
     const [confirmPopupVisible, setConfirmPopupVisible] = useState(false);
     const [unlockPopupVisible, setUnlockPopupVisible] = useState(false);
 
@@ -26,10 +26,9 @@ const Adminhall = () => {
     };
 
     useEffect(() => {
-        // Load locked dates from the API when the component mounts
         const fetchLockedDates = async () => {
             try {
-                const response = await fetch('http://localhost:5000/api/lockeddates'); // Adjust the endpoint as necessary
+                const response = await fetch('http://localhost:5000/api/lockeddates');
                 if (!response.ok) throw new Error('Network response was not ok');
                 const data = await response.json();
                 const datesByHall = {};
@@ -57,8 +56,7 @@ const Adminhall = () => {
 
     const handleDateChange = (date) => {
         setSelectedDate(date);
-
-        // Check if the date is already locked for the active hall
+        
         if (lockedDates[activeHall] && lockedDates[activeHall].some(lockedDate => new Date(lockedDate).toDateString() === date.toDateString())) {
             setUnlockPopupVisible(true);
         } else {
@@ -68,19 +66,17 @@ const Adminhall = () => {
 
     const handleConfirmLock = async () => {
         try {
-            // Lock the date on the backend
             const response = await fetch('http://localhost:5000/api/lockeddates', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     hallName: activeHall,
-                    date: selectedDate.toISOString(), // Store date in ISO format
+                    date: selectedDate.toISOString(),
                 }),
             });
 
             if (!response.ok) throw new Error('Failed to lock the date');
 
-            // Update local state with the newly locked date
             const updatedLockedDates = { ...lockedDates };
             if (!updatedLockedDates[activeHall]) {
                 updatedLockedDates[activeHall] = [];
@@ -96,19 +92,17 @@ const Adminhall = () => {
 
     const handleConfirmUnlock = async () => {
         try {
-            // Unlock the date on the backend
             const response = await fetch('http://localhost:5000/api/lockeddates', {
                 method: 'DELETE',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     hallName: activeHall,
-                    date: selectedDate.toISOString(), // Store date in ISO format
+                    date: selectedDate.toISOString(),
                 }),
             });
 
             if (!response.ok) throw new Error('Failed to unlock the date');
 
-            // Update local state to remove the unlocked date
             const updatedLockedDates = { ...lockedDates };
             if (updatedLockedDates[activeHall]) {
                 updatedLockedDates[activeHall] = updatedLockedDates[activeHall].filter(lockedDate => new Date(lockedDate).toDateString() !== selectedDate.toDateString());
