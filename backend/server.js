@@ -18,24 +18,20 @@ app.use(cors());
 app.use(express.json());
 app.use('/uploads', express.static('uploads')); // Serve static files from uploads folder
 
-// Ensure uploads directory exists
-if (!fs.existsSync('uploads')) {
-  fs.mkdirSync('uploads');
-}
-
 // Set up multer for file uploads
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, 'uploads/');
+    cb(null, 'uploads/'); // Ensure 'uploads/' folder exists
   },
   filename: (req, file, cb) => {
-    cb(null, Date.now() + path.extname(file.originalname));
+    cb(null, Date.now() + path.extname(file.originalname)); // Name file with timestamp and its original extension
   },
 });
 
 const upload = multer({ storage });
 
 // MongoDB connection
+mongoose.connect('mongodb://localhost:27017/eventEaseDB', {
 mongoose.connect('mongodb://localhost:27017/eventEaseDB', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
