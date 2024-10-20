@@ -7,6 +7,7 @@ import colleges from '../../../backend/colleges';
 const Mainpage = () => {
     const navigate = useNavigate();
     const [email, setEmail] = useState("");
+    const [name, setName] = useState(""); // New input state for name
     const [loading, setLoading] = useState(false);
     const [selectedCollege, setSelectedCollege] = useState(''); // State to store the selected college
 
@@ -60,6 +61,7 @@ const Mainpage = () => {
             if (response.ok) {
                 alert(data.message);
                 setEmail(''); // Clear email input on success
+                setName(''); // Clear name input on success
             } else {
                 alert(data.error || "Failed to subscribe");
             }
@@ -118,12 +120,20 @@ const Mainpage = () => {
                     </form>
                 </div>
 
-                <div className="fotter">
+                <div className="footer">
                     <h4>Make informed choices! Review all event details carefully before registering.
                         Registration is completely optional — it's your call!</h4>
                     
                     {/* Subscription Section */}
                     <div className="subscription">
+                        {/* New name input above email input */}
+                        <input
+                            type="text"
+                            placeholder="Enter College Name"
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
+                            className="name-input"
+                        />
                         <input
                             type="email"
                             placeholder="Enter your email"

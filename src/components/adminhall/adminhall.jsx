@@ -97,8 +97,8 @@ const Adminhall = () => {
     const handleConfirmUnlock = async () => {
         try {
             // Unlock the date on the backend
-            const response = await fetch('http://localhost:5000/api/unlockEventDate', {
-                method: 'POST',
+            const response = await fetch('http://localhost:5000/api/lockeddates', {
+                method: 'DELETE',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     hallName: activeHall,

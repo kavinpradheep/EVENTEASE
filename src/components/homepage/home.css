@@ -86,8 +86,6 @@
     color: rgb(3, 3, 3);
     font-weight: 300;
 }
-/*.page-container-right{
-}*/
 
 .footer {
     margin-bottom: 15px;
@@ -110,7 +108,7 @@
     margin-top: 20px;
 }
 
-.email-input {
+.name-input, .email-input {
     padding: 10px;
     font-size: 16px;
     border: 1px solid #ccc;
