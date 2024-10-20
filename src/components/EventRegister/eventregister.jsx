@@ -1,36 +1,38 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import colleges from '../../../backend/colleges'; // Import the colleges array
 import './eventregister.css';
 
 const Eventregister = () => {
   const navigate = useNavigate();
-  const homeclick = () =>{
-    navigate('/')
-  }
-  const eventsclick = () =>{
-    navigate('/Eventspage')
-  }
-  const loginclick = () =>{
-    navigate('/login-signup-page')
-  }
-  const hallclick = () =>{
-    navigate('/Hallpage')
-  }
-  const [eventCount, setEventCount] = useState(1); // State to hold the number of sub-events
-  const [events, setEvents] = useState([{ eventName: '' }]); // State to hold sub-event details
-  const [contactCount, setContactCount] = useState(1); // State to hold the number of contacts
-  const [contacts, setContacts] = useState([{ contactName: '', contactNumber: '' }]); // State to hold contact details
+  const homeclick = () => {
+    navigate('/');
+  };
+  const eventsclick = () => {
+    navigate('/Eventspage');
+  };
+  const loginclick = () => {
+    navigate('/login-signup-page');
+  };
+  const hallclick = () => {
+    navigate('/Hallpage');
+  };
+
+  const [eventCount, setEventCount] = useState(1);
+  const [events, setEvents] = useState([{ eventName: '' }]);
+  const [contactCount, setContactCount] = useState(1);
+  const [contacts, setContacts] = useState([{ contactName: '', contactNumber: '' }]);
 
   const [eventData, setEventData] = useState({
-    collegeName: '',
-    eventName: '', // Main event name
+    collegeName: '', // Will now hold selected college name
+    eventName: '',
     eventDate: '',
     gformLink: '',
-    webinarLink: '', // Webinar link
+    webinarLink: '',
     registrationOpen: '',
     registrationClose: '',
-    description: '', // Short description
-    detailedInfo: '', // Detailed information about the event
+    description: '',
+    detailedInfo: '',
   });
 
   const [eventPoster, setEventPoster] = useState(null);
@@ -42,7 +44,7 @@ const Eventregister = () => {
   const handleImageChange = (e) => {
     setEventPoster(e.target.files[0]);
   };
-  
+
   const handleEventCountChange = (count) => {
     setEventCount(count);
     const newEvents = Array.from({ length: count }, (_, index) => ({
@@ -78,16 +80,15 @@ const Eventregister = () => {
 
     // Append event data to FormData
     formData.append('collegeName', eventData.collegeName);
-    formData.append('eventName', eventData.eventName); // Append main event name
+    formData.append('eventName', eventData.eventName);
     formData.append('eventDate', eventData.eventDate);
     formData.append('gformLink', eventData.gformLink);
-    formData.append('webinarLink', eventData.webinarLink); // Append webinar link
+    formData.append('webinarLink', eventData.webinarLink);
     formData.append('registrationOpen', eventData.registrationOpen);
     formData.append('registrationClose', eventData.registrationClose);
-    formData.append('description', eventData.description); // Append description
-    formData.append('detailedInfo', eventData.detailedInfo); // Append detailed information
+    formData.append('description', eventData.description);
+    formData.append('detailedInfo', eventData.detailedInfo);
 
-    // Handle event poster file upload
     if (eventPoster) {
       formData.append('eventPoster', eventPoster);
     } else {
@@ -95,7 +96,6 @@ const Eventregister = () => {
       return;
     }
 
-    // Convert events and contacts arrays to JSON strings
     formData.append('events', JSON.stringify(events));
     formData.append('contacts', JSON.stringify(contacts));
 
@@ -133,10 +133,9 @@ const Eventregister = () => {
           <div className="login" onClick={loginclick}>Login / Sign Up</div>
         </div>
       </div>
-      
+
       <div className="register-container">
         <div className="register-container-left">
-
           <h1>Publish Event</h1>
           <div className="rcl-h41">
             <p>Upload the event details</p>
@@ -144,10 +143,20 @@ const Eventregister = () => {
             <p>Corrections can't be made after publishing</p>
           </div>
           <form onSubmit={handleSubmit} encType="multipart/form-data">
-            {/* Existing form fields for left side */}
+            {/* College Name Dropdown */}
             <p>College Name</p>
-            <input type="text" name="collegeName" value={eventData.collegeName} onChange={handleChange}
-              className="register-eventname" placeholder="College Name" required />
+            <select 
+              name="collegeName" 
+              value={eventData.collegeName} 
+              onChange={handleChange} 
+              className="register-eventname" 
+              required
+            >
+              <option value="" disabled>Select College</option>
+              {colleges.map((college, index) => (
+                <option key={index} value={college}>{college}</option>
+              ))}
+            </select>
 
             <p>Event Name</p>
             <input type="text" name="eventName" value={eventData.eventName} onChange={handleChange}
@@ -233,7 +242,7 @@ const Eventregister = () => {
             {Array.from({ length: contactCount }).map((_, index) => (
               <div key={index}>
                 <h3 className='register-contact-count'>Contact {index + 1}</h3>
-                <label>
+                <div className='contact-container'>
                   <input
                     type="text"
                     value={contacts[index]?.contactName || ''}
@@ -250,15 +259,16 @@ const Eventregister = () => {
                     className="register-contactnumber"
                     placeholder="Contact Number"
                   />
-                </label>
+                </div>
               </div>
             ))}
-          
-            <button type="submit" className="register-publish-button">Publish</button>
+
+            <button type="submit" className="register-submit">Publish Event</button>
           </form>
         </div>
-       {/* right-container*/}
         <div className="register-container-right">
+          <h1>publisher verification 
+          work in progress</h1>
         </div>
       </div>
     </div>
