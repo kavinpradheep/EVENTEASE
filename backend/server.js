@@ -5,7 +5,6 @@ import cors from 'cors';
 import multer from 'multer';
 import path from 'path';
 import jwt from 'jsonwebtoken';
-import fs from 'fs';
 import nodemailer from 'nodemailer'; // Import nodemailer
 import { body, validationResult } from 'express-validator';
 
@@ -32,7 +31,6 @@ const upload = multer({ storage });
 
 // MongoDB connection
 mongoose.connect('mongodb://localhost:27017/eventEaseDB', {
-mongoose.connect('mongodb://localhost:27017/eventEaseDB', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
@@ -54,6 +52,14 @@ const transporter = nodemailer.createTransport({
   },
 });
 
+// Subscriber schema
+const subscriberSchema = new mongoose.Schema({
+  email: { type: String, unique: true },
+  subscribedAt: { type: Date, default: Date.now },
+});
+
+const Subscriber = mongoose.model('Subscriber', subscriberSchema);
+
 // Subscription API route
 app.post('/api/subscribe', async (req, res) => {
   const { email } = req.body;
@@ -63,6 +69,16 @@ app.post('/api/subscribe', async (req, res) => {
   }
 
   try {
+    // Check if the email already exists in the database
+    const existingSubscriber = await Subscriber.findOne({ email });
+    if (existingSubscriber) {
+      return res.status(400).json({ error: 'Email already subscribed' });
+    }
+
+    // Save subscriber details to the database
+    const newSubscriber = new Subscriber({ email });
+    await newSubscriber.save();
+
     // Define the email content
     const mailOptions = {
       from: '"EventEase" <kavinpradheep2005@gmail.com>',
@@ -76,8 +92,8 @@ app.post('/api/subscribe', async (req, res) => {
 
     res.status(200).json({ message: 'Subscription successful! Email sent.' });
   } catch (error) {
-    console.error('Error sending email:', error);
-    res.status(500).json({ error: 'Failed to send email.' });
+    alert('Error sending email or saving subscriber:', error);
+    res.status(500).json({ error: 'Failed to send email or save subscriber.' });
   }
 });
 

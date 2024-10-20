@@ -3,12 +3,14 @@ import { useNavigate } from 'react-router-dom';
 import homelogo from '../../../backend/eventease2.png';
 import './home.css';
 import colleges from '../../../backend/colleges';
+import axios from 'axios'; // Import axios for making HTTP requests
 
 const Mainpage = () => {
     const navigate = useNavigate();
     const [email, setEmail] = useState("");
     const [loading, setLoading] = useState(false);
-    const [selectedCollege, setSelectedCollege] = useState(''); // State to store the selected college
+    const [selectedCollege, setSelectedCollege] = useState('');
+    const [message, setMessage] = useState(''); // State for messages
 
     const eventsclick = () => {
         navigate('/Eventspage');
@@ -22,9 +24,10 @@ const Mainpage = () => {
     const contactclick = () => {
         navigate('/Contact us');
     };
-    const loginclick = () =>{
-        navigate('/Login-signup-page')
-    }
+    const loginclick = () => {
+        navigate('/Login-signup-page');
+    };
+
     // Handle change event when a college is selected
     const handleCollegeChange = (event) => {
         setSelectedCollege(event.target.value);
@@ -41,33 +44,34 @@ const Mainpage = () => {
     };
 
     // Handle email subscription
-    const handleSubscribe = async () => {
-        if (!email) {
-            alert("Please enter an email address");
+    const handleSubscribe = async (e) => {
+        e.preventDefault(); // Prevent default form submission
+        setMessage(''); // Clear previous messages
+
+        if (!email || !selectedCollege) {
+            alert("Please enter both an email address and select a college");
             return;
         }
 
         setLoading(true); // Start loading
 
         try {
-            const response = await fetch('http://localhost:5000/api/subscribe', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ email }),
+            const response = await axios.post('http://localhost:5000/api/subscribe', {
+                email,
+                college: selectedCollege,
             });
 
-            const data = await response.json();
-            if (response.ok) {
-                alert(data.message);
-                setEmail(''); // Clear email input on success
-            } else {
-                alert(data.error || "Failed to subscribe");
-            }
+            // Assuming successful response
+            alert("Subscription successful!"); // Show success message
+            setEmail(''); // Clear email input on success
+            setSelectedCollege(''); // Clear college selection
         } catch (error) {
-            console.error(error);
-            alert("Server error, please try again later.");
+            if (error.response && error.response.status === 400) {
+                // If email already exists, alert the user
+                alert('This email is already subscribed.'); // Alert for existing email
+            } else {
+                alert('Failed to subscribe. Please try again.'); // Generic error message
+            }
         } finally {
             setLoading(false); // Stop loading after email processing
         }
@@ -75,7 +79,7 @@ const Mainpage = () => {
 
     const handleKeyPress = (event) => {
         if (event.key === 'Enter') {
-            handleSubscribe();
+            handleSubscribe(event);
         }
     };
 
@@ -91,11 +95,9 @@ const Mainpage = () => {
                         <div className="about" onClick={aboutusclick}>About Us</div>
                         <div className="contact" onClick={contactclick}>Contact Us</div>
                     </div>
-                    
                     <div className="right-section">
                         <div className="login" onClick={loginclick}>Login / Sign Up</div>
                         <span>{new Date().toLocaleDateString()}</span> {/* Current date */}
-                    
                     </div>
                 </div>
 
@@ -125,23 +127,29 @@ const Mainpage = () => {
                     </form>
                 </div>
 
-                <div className="fotter">
+                <div className="footer">
                     <h4>Make informed choices! Review all event details carefully before registering.
                         Registration is completely optional — it's your call!</h4>
-                    
+                        
                     {/* Subscription Section */}
                     <div className="subscription">
-                        <input
-                            type="email"
-                            placeholder="Enter your email"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            onKeyPress={handleKeyPress}
-                            className="email-input"
-                        />
-                        <button onClick={handleSubscribe} className="subscribe-button" disabled={loading}>
-                            {loading ? 'Processing...' : 'Subscribe'} {/* Show loading text */}
-                        </button>
+                        <form onSubmit={handleSubscribe}>
+                            <label className="selectcollege">College:</label>
+                            <select id="subscribe-college" value={selectedCollege} onChange={handleCollegeChange}>
+                                <option value="">-- Select a College --</option>
+                                {colleges.map((college, index) => (
+                                    <option key={index} value={college}>
+                                        {college}
+                                    </option>
+                                ))}
+                            </select>
+                            <input type="email" placeholder="Enter your email" value={email}
+                                onChange={(e) => setEmail(e.target.value)} onKeyPress={handleKeyPress}
+                                className="email-input" />
+                            <button type="submit" className="subscribe-button" disabled={loading}>
+                                {loading ? 'Processing...' : 'Subscribe'} {/* Show loading text */}
+                            </button>
+                        </form>
                     </div>
                 </div>
             </div>
