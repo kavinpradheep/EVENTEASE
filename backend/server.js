@@ -52,7 +52,7 @@ const transporter = nodemailer.createTransport({
 // Subscriber schema
 const subscriberSchema = new mongoose.Schema({
   email: { type: String, unique: true },
-  collegeName: String, // Store college name
+  college: { type: String }, // New field for college
   subscribedAt: { type: Date, default: Date.now },
 });
 
@@ -60,11 +60,10 @@ const Subscriber = mongoose.model('Subscriber', subscriberSchema);
 
 // Subscription API route
 app.post('/api/subscribe', async (req, res) => {
-  console.log('Received request body:', req.body); // Log the request body
-  const { email, collegeName } = req.body; // Destructure email and college name
+  const { email, college } = req.body; // Get college from request body
 
-  if (!email || !collegeName) { // Check if both fields are provided
-    return res.status(400).json({ error: 'Email and college name are required' });
+  if (!email || !college) {
+    return res.status(400).json({ error: 'Email and college are required' });
   }
 
   try {
@@ -75,7 +74,7 @@ app.post('/api/subscribe', async (req, res) => {
     }
 
     // Save subscriber details to the database
-    const newSubscriber = new Subscriber({ email, collegeName });
+    const newSubscriber = new Subscriber({ email, college }); // Save college as well
     await newSubscriber.save();
 
     // Define the email content
@@ -295,18 +294,25 @@ app.post('/api/registerEvent', upload.single('eventPoster'), async (req, res) =>
 // Lock event dates route
 app.post('/api/lockeddates', async (req, res) => {
   const { hallName, date } = req.body;
+
   try {
-    const newLockedDate = new LockedDate({ hallName, date });
-    await newLockedDate.save();
-    res.status(201).json({ message: 'Date locked successfully' });
+    // Check if the date is already locked
+    const alreadyLocked = await LockedDate.findOne({ hallName, date: new Date(date) });
+    if (alreadyLocked) {
+      return res.status(400).json({ message: 'Date already locked for this hall' });
+    }
+
+    // Lock the date
+    const lockedDate = new LockedDate({ hallName, date: new Date(date) });
+    await lockedDate.save();
+    res.status(200).json({ message: 'Date locked successfully' });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Server error' });
   }
 });
 
-// Start server
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+// Start the server
+app.listen(5000, () => {
+  console.log('Server running on port 5000');
 });
