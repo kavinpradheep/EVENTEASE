@@ -89,16 +89,17 @@
 /*.page-container-right{
 }*/
 
-.footer {
+.fotter {
     margin-bottom: 15px;
     align-items: center;
     justify-content: center;
     text-align: center;
 }
 
-.footer h4 {
+.fotter h4 {
     color: rgb(38, 38, 38);
     font-family: 'Inter', sans-serif;
+    text-align: center;
 }
 
 /* Subscription styles */

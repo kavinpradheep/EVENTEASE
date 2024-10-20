@@ -22,7 +22,9 @@ const Mainpage = () => {
     const contactclick = () => {
         navigate('/Contact us');
     };
-
+    const loginclick = () =>{
+        navigate('/Login-signup-page')
+    }
     // Handle change event when a college is selected
     const handleCollegeChange = (event) => {
         setSelectedCollege(event.target.value);
@@ -89,7 +91,12 @@ const Mainpage = () => {
                         <div className="about" onClick={aboutusclick}>About Us</div>
                         <div className="contact" onClick={contactclick}>Contact Us</div>
                     </div>
-                    <div className="right-section">date</div>
+                    
+                    <div className="right-section">
+                        <div className="login" onClick={loginclick}>Login / Sign Up</div>
+                        <span>{new Date().toLocaleDateString()}</span> {/* Current date */}
+                    
+                    </div>
                 </div>
 
                 <div className="page-container">

@@ -1,3 +1,11 @@
+.admin-hall{
+    color: rgb(49, 100, 244);
+}
+.admin-home:hover{
+    color: rgb(49, 100, 244);
+    transform: scale(1.1);
+    transition: 0.2s;
+}
 .highlight {
     background-color: red !important; /* Change to your preferred color */
     color: white; /* Change text color to white */

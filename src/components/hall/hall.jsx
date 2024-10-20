@@ -97,9 +97,9 @@ const Hall = () => {
             <div className="header">
                 <div className="left-section">EventEase</div>
                 <div className="middle-section">
-                    <div className="home" onClick={homeclick}>Home</div>
+                    <div className="hall-home" onClick={homeclick}>Home</div>
                     <div className="events" onClick={eventsclick}>Events</div>
-                    <div className="hall">Hall</div>
+                    <div className="hall-hall">Hall</div>
                     <div className="about">About Us</div>
                     <div className="contact">Contact Us</div>
                 </div>

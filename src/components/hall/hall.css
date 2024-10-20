@@ -1,4 +1,13 @@
-/* General Layout */
+.hall-home{
+    transition: 0.2s;
+}
+.hall-home:hover{
+    color: rgb(49, 100, 244);
+    transform: scale(1.1);
+}
+.hall-hall{
+    color: rgb(49, 100, 244);
+}
 .hall-main-container{
     width: 1000px;
     margin: auto;

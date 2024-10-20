@@ -130,9 +130,9 @@ const Adminhall = () => {
             <div className="header">
                 <div className="left-section">EventEase Admin</div>
                 <div className="middle-section">
-                    <div className="home">Home</div>
+                    <div className="admin-home">Home</div>
                     <div className="events">Events</div>
-                    <div className="hall">Hall</div>
+                    <div className="admin-hall">Hall</div>
                     <div className="about">About Us</div>
                     <div className="contact">Contact Us</div>
                 </div>
