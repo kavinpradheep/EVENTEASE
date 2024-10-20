@@ -20,6 +20,12 @@ const Events = () => {
     const hallclick = () => {
         navigate('/Hallpage')
     }
+    const aboutusclick = () => {
+        navigate('/aboutUs');
+    };
+    const contactclick = () => {
+        navigate('/Contact us');
+    };
     // Update view more click to navigate with event ID
     const viewmoreclick = (eventId) => {
         navigate(`/event/${eventId}`); // Adjust the route to include the event ID
@@ -56,8 +62,8 @@ const Events = () => {
                         </div>
                         <div className="event-nav-events">Events</div>
                         <div className="hall" onClick={hallclick}>Hall</div>
-                        <div className="about">About Us</div>
-                        <div className="contact">Contact Us</div>
+                        <div className="about" onClick={aboutusclick}>About Us</div>
+                        <div className="contact" onClick={contactclick}>Contact Us</div>
                     </div>
                     <div className="right-section">
                         <div className="login" onClick={loginclick}>Login / Sign Up</div>
@@ -68,7 +74,7 @@ const Events = () => {
                     <div className="eventregister-popup-container">
                         <img src={eventpopup} alt="Event Registration Popup" />
                         <h3>Showcase your Event</h3>
-                        <button onClick={eventregisterclick}>
+                        <button className='publish' onClick={eventregisterclick}>
                             PUBLISH
                         </button>
                     </div>
@@ -82,7 +88,7 @@ const Events = () => {
                                 <img 
                                     src={`http://localhost:5000/${event.eventPoster}`} 
                                     alt={`${event.eventName} Poster`} 
-                                />
+                                /><br></br>
                                 <p>{event.collegeName}</p>
                                 <h3>{event.eventName}</h3>
                                 <h3>Event date: {new Date(event.eventDate).toLocaleDateString()}</h3>

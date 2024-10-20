@@ -5,7 +5,9 @@
     display: flex;
     flex-direction: column;
     gap: 40px;
-}.event-nav-home{
+}
+.login,
+.event-nav-home{
     transition: 0.2s;
     cursor: pointer;
 }
@@ -13,6 +15,8 @@
     color: rgb(49, 100, 244);
     transform: scale(1.1);
 }
+
+
 .event-nav-events{
     cursor: pointer;
     color: rgb(49, 100, 244);
@@ -63,8 +67,14 @@
     display: flex;
     flex-direction: column;
     margin: 0;
+    margin-right: 70px;
+    margin-left: 40px;
 }
 .event-container-event img{
     height: 300px;
     width: 400px;
+}
+
+.publish:hover{
+    background-color: darkblue;
 }

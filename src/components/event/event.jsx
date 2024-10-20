@@ -6,15 +6,24 @@ const Event = () => {
     
     const { id } = useParams(); // Get the event ID from the URL
     const [eventData, setEventData] = useState(null); // State to hold event details
-    const homeclick = () => {
-        navigate('/Mainpage');
+    const homeclick = () =>{
+        navigate('/')
+    };
+    const eventsclick = () =>{
+        navigate('/Eventspage')
     };
     const loginclick = () => {
         navigate('/')
     }
-    const eventsclick = () =>{
-        navigate('/Events')
-    }
+    const hallclick = () => {
+        navigate('/Hallpage');
+      };
+    const aboutusclick = () => {
+        navigate('/aboutUs');
+    };
+    const contactclick = () => {
+        navigate('/Contact us');
+    };
     useEffect(() => {
         // Fetch the event details from the server
         const fetchEventData = async () => {
@@ -46,9 +55,9 @@ const Event = () => {
                             Home
                         </div>
                         <div className="event-nav-events" onClick={eventsclick}>Events</div>
-                        <div className="event-nav-hall">Hall</div>
-                        <div className="about">About Us</div>
-                        <div className="contact">Contact Us</div>
+                        <div className="event-nav-hall" onClick={hallclick}>Hall</div>
+                        <div className="about" onClick={aboutusclick}>About Us </div>
+                        <div className="contact" onClick={contactclick}>Contact Us</div>
                     </div>
                     <div className="right-section">
                         <div className="login" onClick={loginclick}>Login / Sign Up</div>
@@ -66,29 +75,36 @@ const Event = () => {
 
                 <div className="event-main-event-name">
                      {eventData.eventName} 
+                </div><br></br>
+
+                <div className="event-detail-discription-event-title">
+                    Discription :
                 </div>
 
                 <div className="event-detail-description">
                     {eventData.description} 
                 </div>
 
+                <div className="event-detail-Poster-event-title">
+                    Event Poster :
+                </div>
                 <img className="event-detail-poster" src={`http://localhost:5000/${eventData.eventPoster}`} 
                 alt={`${eventData.collegeName} Poster`} /> 
                 <div className="event-detail-about-event-title">
-                    About Event
+                    About Event :
                 </div>
                 
                 <div className="event-detail-aboutevent">
                     {eventData.detailedInfo} 
                 </div>
 
-                <p className='event-detail-typeofevent-title'>Events</p>
+                <p className='event-detail-typeofevent-title'>Events :</p>
                 <div className="event-detail-typeofevent">
                     {eventData.events && eventData.events.map((eventItem, index) => (
                         <div key={index}>{eventItem.eventName}</div> 
                     ))}
                 </div>
-                <p className='event-detail-webinarlink-title'>Webinar Link</p>
+                <p className='event-detail-webinarlink-title'>Webinar Link :</p>
                 <div className="event-detail-webinar">
                     {eventData.webinarLink && (
                         <div>
@@ -97,7 +113,7 @@ const Event = () => {
                         </div>
                     )}
                 </div>
-                <p className='event-detail-contact-title'>Contact Details</p>
+                <p className='event-detail-contact-title'>Contact Details :</p>
                 <div className="event-detail-contact" >
                     {eventData.contacts && eventData.contacts.map((contact, index) => (
                         <div key={index}>
@@ -106,7 +122,7 @@ const Event = () => {
                     ))} 
                 </div>
                 <p className="event-detail-registration-link-title">
-                    Registration Link
+                    Registration Link :
                 </p>
                 <div className="event-detail-registration-link">
                     <a href={eventData.gformLink} target="_blank" rel="noopener noreferrer">Register Here</a> {/* Dynamic GForm Link */}

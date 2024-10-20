@@ -139,16 +139,8 @@
   text-align: center;
   
 }
-<<<<<<< HEAD
-.register-container-right{
-    background-color: aquamarine;
-}
-.register-publish-button{
-=======
 
-
-  .submit-button {
->>>>>>> 7a22d3db5875e1d9ea6c4c4e033f031344ce6349
+  .register-submit{
     display: block;
     height: 35px;
     width: 100px;
@@ -163,7 +155,7 @@
     font-family: 'Poppins', sans-serif;
   }
   
-  .submit-button:hover {
+  .register-submit:hover {
     background-color: darkblue;
   }
   

@@ -100,12 +100,16 @@
 }
 
 /* Subscription styles */
+
+.selectcollege{
+    margin-right: 10px;
+}
 .subscription {
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 10px;
-    margin-top: 20px;
+    margin-top: 10px;
 }
 
 .name-input, .email-input {
@@ -113,6 +117,7 @@
     font-size: 16px;
     border: 1px solid #ccc;
     border-radius: 5px;
+    margin-left: 10px;
 }
 
 .subscribe-button {
@@ -123,8 +128,13 @@
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s;
+    margin-left: 10px
 }
 
 .subscribe-button:hover {
     background-color: rgb(30, 78, 204);
+}
+
+.home-to-event-clg-name{
+    margin-left: 100px
 }

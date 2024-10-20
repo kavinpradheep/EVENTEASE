@@ -11,9 +11,16 @@ const Hall = () => {
     const eventsclick = () =>{
         navigate('/Eventspage')
     };
+    const aboutusclick = () => {
+        navigate('/aboutUs');
+    };
+    const contactclick = () => {
+        navigate('/Contact us');
+    };
     const loginclick = () => {
         navigate('/Login-signup-page')
     };
+    
 
     const [activeHall, setActiveHall] = useState(null); // For tracking which hall is selected
     const [selectedDate, setSelectedDate] = useState(new Date());
@@ -100,8 +107,8 @@ const Hall = () => {
                     <div className="hall-home" onClick={homeclick}>Home</div>
                     <div className="events" onClick={eventsclick}>Events</div>
                     <div className="hall-hall">Hall</div>
-                    <div className="about">About Us</div>
-                    <div className="contact">Contact Us</div>
+                    <div className="about" onClick={aboutusclick}>About Us</div>
+                    <div className="contact" onClick={contactclick}>Contact Us</div>
                 </div>
                 <div className="right-section">
                     <div className="login" onClick={loginclick}>Login / Sign Up</div>
